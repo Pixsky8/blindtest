@@ -1,0 +1,12 @@
+# Editors
+*.swp
+~*
+\#*\#
+.\#*
+
+# Source Specific
+/server/src/main/java/database/
+
+# Compilation
+*.db
+target/
