@@ -1,0 +1,20 @@
+<h3>Login</h3>
+
+<input
+  class="string"
+  #loginUser (keyup.enter)="login(loginUser.value, loginPasswd.value)"
+  placeholder="login"
+>
+
+<input
+  class="string"
+  type="password"
+  #loginPasswd (keyup.enter)="login(loginUser.value, loginPasswd.value)"
+  placeholder="********"
+>
+
+<div class="center">
+  <button (click)="login(loginUser.value, loginPasswd.value)">Login</button>
+</div>
+
+<button (click)="getUserName()">Get User name</button>
