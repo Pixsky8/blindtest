@@ -1,6 +1,7 @@
 import controller.AccountController
 import controller.request.AccountCreationRequest
 import controller.request.LoginRequest
+import cookie.LoginSession
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.html.*
@@ -11,6 +12,8 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.sessions.*
+import io.ktor.util.*
 import kotlinx.html.*
 import org.h2.jdbcx.JdbcDataSource
 import org.jooq.DSLContext
@@ -19,6 +22,7 @@ import org.jooq.impl.DSL
 import repository.AccountRepository
 import service.AccountService
 import java.sql.Connection
+import kotlin.random.Random
 
 
 fun HTML.index() {
@@ -56,6 +60,13 @@ fun main() {
         install(ContentNegotiation) {
             jackson()
         }
+        install(Sessions) {
+            cookie<LoginSession>("LOGIN_SESSION", storage = SessionStorageMemory()) {
+                val secretSignKey = ByteArray(64);
+                Random.Default.nextBytes(secretSignKey, 0, secretSignKey.size)
+                transform(SessionTransportTransformerMessageAuthentication(secretSignKey))
+            }
+        }
         routing {
             get("/") {
                 call.respondHtml(HttpStatusCode.OK, HTML::index)
@@ -72,6 +83,8 @@ fun main() {
 
             post("/login") {
                 val request = call.receive<LoginRequest>()
+                val loginSession = call.sessions.get<LoginSession>() ?: LoginSession(username = request.login)
+                call.sessions.set(loginSession)
                 call.respond(accountController.login(request))
             }
         }
