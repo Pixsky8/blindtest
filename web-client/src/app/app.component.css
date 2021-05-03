@@ -2,6 +2,10 @@ mat-drawer-container {
     height: 100%;
 }
 
+div.sidebar {
+    margin: 2%;
+}
+
 div.side-nav-body {
     height: 100%;
 }

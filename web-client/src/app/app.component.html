@@ -1,6 +1,14 @@
 <mat-drawer-container class="example-container">
   <mat-drawer #drawer class="example-sidenav" mode="over">
-    <p>Auto-resizing sidenav</p>
+    <div class="sidebar">
+      <div *ngIf="getLogin() != null; else notLogged">
+        <p>Logged as {{ getLogin() }}</p>
+      </div>
+
+      <ng-template #notLogged>
+        <p>You are not logged in</p>
+      </ng-template>
+    </div>
   </mat-drawer>
 
 
