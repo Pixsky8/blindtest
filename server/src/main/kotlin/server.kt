@@ -2,6 +2,7 @@ import controller.AccountController
 import controller.request.AccountCreationRequest
 import controller.request.LoginRequest
 import controller.request.ProfileRequest
+import controller.response.Response
 import tools.cookie.LoginSession
 import io.ktor.application.*
 import io.ktor.features.*
@@ -83,9 +84,12 @@ fun main() {
 
             post("/login") {
                 val request = call.receive<LoginRequest>()
-                val loginSession = call.sessions.get<LoginSession>() ?: LoginSession(username = request.login)
-                call.sessions.set(loginSession)
-                call.respond(accountController.login(request))
+                val response = accountController.login(request)
+                if (response.status == Response.Result.SUCCESS) {
+                    val loginSession = call.sessions.get<LoginSession>() ?: LoginSession(username = request.login)
+                    call.sessions.set(loginSession)
+                }
+                call.respond(response)
             }
 
             get("/profile") {

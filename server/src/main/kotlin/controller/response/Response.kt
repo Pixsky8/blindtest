@@ -6,18 +6,18 @@ open class Response {
         FAILURE,
     }
 
-    val successStatus: Result;
+    val status: Result;
     val errorCode: String?;
     val errorMessage: String?;
 
     constructor() {
-        successStatus = Result.SUCCESS;
+        status = Result.SUCCESS;
         errorCode = null;
         errorMessage = null;
     }
 
     constructor(successStatus: Result, errorCode: String, errorMessage: String) {
-        this.successStatus = successStatus
+        this.status = successStatus
         this.errorCode = errorCode
         this.errorMessage = errorMessage
     }
