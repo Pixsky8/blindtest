@@ -3,7 +3,6 @@ package controller
 import controller.request.AccountCreationRequest
 import controller.request.LoginRequest
 import controller.request.ProfileRequest
-import controller.response.AccountCreationResponse
 import controller.response.AccountListResponse
 import controller.response.ProfileResponse
 import controller.response.Response
@@ -19,9 +18,9 @@ class AccountController {
         this.accountService = accountService
     }
 
-    fun createAccount(request: AccountCreationRequest): AccountCreationResponse {
+    fun createAccount(request: AccountCreationRequest): Response {
         val result: Boolean = accountService.createAccount(AccountEntity(request.login, request.password))
-        return AccountCreationResponse()
+        return Response()
     }
 
     // DEBUG ONLY
@@ -39,12 +38,12 @@ class AccountController {
         if (accountService.samePassword(AccountEntity(request.login, request.password)))
             return Response();
 
-        return Response(Response.Result.FAILURE, "LOGIN_FAILED", "Login failed")
+        return Response(Response.Result.FAILURE, Response.ErrorCodes.LOGIN_FAIL, "Login failed")
     }
 
     fun getProfile(request: ProfileRequest): ProfileResponse {
         if (request.user_login == null)
-            return ProfileResponse(Response.Result.FAILURE, "NOT_LOGGED", "Not logged in")
+            return ProfileResponse(Response.Result.FAILURE, Response.ErrorCodes.NOT_LOGGED, "Not logged in")
         return ProfileResponse(request.user_login)
     }
 }

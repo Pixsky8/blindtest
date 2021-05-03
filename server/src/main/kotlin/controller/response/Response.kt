@@ -6,8 +6,13 @@ open class Response {
         FAILURE,
     }
 
+    enum class ErrorCodes {
+        LOGIN_FAIL,
+        NOT_LOGGED,
+    }
+
     val status: Result;
-    val errorCode: String?;
+    val errorCode: ErrorCodes?;
     val errorMessage: String?;
 
     constructor() {
@@ -16,7 +21,7 @@ open class Response {
         errorMessage = null;
     }
 
-    constructor(successStatus: Result, errorCode: String, errorMessage: String) {
+    constructor(successStatus: Result, errorCode: ErrorCodes, errorMessage: String) {
         this.status = successStatus
         this.errorCode = errorCode
         this.errorMessage = errorMessage

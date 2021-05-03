@@ -7,7 +7,7 @@ class ProfileResponse : Response{
         this.login = login
     }
 
-    constructor(result: Result, errorCode: String, errorMessage: String)
+    constructor(result: Result, errorCode: ErrorCodes, errorMessage: String)
             : super(result, errorCode, errorMessage) {
         this.login = null
     }
