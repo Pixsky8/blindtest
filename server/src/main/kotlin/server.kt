@@ -2,7 +2,7 @@ import controller.AccountController
 import controller.request.AccountCreationRequest
 import controller.request.LoginRequest
 import controller.request.ProfileRequest
-import cookie.LoginSession
+import tools.cookie.LoginSession
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.html.*

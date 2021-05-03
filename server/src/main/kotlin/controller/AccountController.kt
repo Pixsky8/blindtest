@@ -7,12 +7,13 @@ import controller.response.AccountCreationResponse
 import controller.response.AccountListResponse
 import controller.response.ProfileResponse
 import controller.response.Response
-import io.ktor.http.content.*
+import io.netty.util.internal.logging.Log4JLoggerFactory
 import service.AccountService
 import service.entity.AccountEntity
 
 class AccountController {
     val accountService: AccountService
+    val logger = Log4JLoggerFactory.getInstance(AccountController::class.java)
 
     constructor(accountService: AccountService) {
         this.accountService = accountService
@@ -42,8 +43,8 @@ class AccountController {
     }
 
     fun getProfile(request: ProfileRequest): ProfileResponse {
-        if (request.user == null)
+        if (request.user_login == null)
             return ProfileResponse(Response.Result.FAILURE, "NOT_LOGGED", "Not logged in")
-        return ProfileResponse(request.user)
+        return ProfileResponse(request.user_login)
     }
 }

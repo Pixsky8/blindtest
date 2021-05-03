@@ -1,9 +1,9 @@
 package controller.request
 
 class ProfileRequest {
-    val user: String?
+    val user_login: String?
 
-    constructor(user: String?) {
-        this.user = user
+    constructor(user_login: String?) {
+        this.user_login = user_login
     }
 }

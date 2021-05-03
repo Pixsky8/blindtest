@@ -15,6 +15,9 @@ class AccountService {
     }
 
     fun createAccount(account: AccountEntity): Boolean {
+        if (getAccount(account.login) != null)
+            return false
+
         val passwd_sha3 = HashPassword(account.password)
 
         if (passwd_sha3 == null) {
