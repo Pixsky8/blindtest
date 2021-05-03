@@ -1,6 +1,7 @@
 import controller.AccountController
 import controller.request.AccountCreationRequest
 import controller.request.LoginRequest
+import controller.request.ProfileRequest
 import cookie.LoginSession
 import io.ktor.application.*
 import io.ktor.features.*
@@ -13,7 +14,6 @@ import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.sessions.*
-import io.ktor.util.*
 import kotlinx.html.*
 import org.h2.jdbcx.JdbcDataSource
 import org.jooq.DSLContext
@@ -72,7 +72,7 @@ fun main() {
                 call.respondHtml(HttpStatusCode.OK, HTML::index)
             }
             // DEBUG
-            get("/account") {
+            get("/account/list") {
                 call.respond(accountController.listAccounts())
             }
 
@@ -86,6 +86,14 @@ fun main() {
                 val loginSession = call.sessions.get<LoginSession>() ?: LoginSession(username = request.login)
                 call.sessions.set(loginSession)
                 call.respond(accountController.login(request))
+            }
+
+            get("/profile") {
+                val session = call.sessions.get<LoginSession>()
+                if (session == null)
+                    call.respond(accountController.getProfile(ProfileRequest(null)))
+                else
+                    call.respond(accountController.getProfile(ProfileRequest(session.username)))
             }
         }
     }.start(wait = true)
