@@ -1,0 +1,18 @@
+<h3>Sign Up</h3>
+
+<input
+  class="string"
+  #signupUser (keyup.enter)="signup(signupUser.value, signupPasswd.value)"
+  placeholder="login"
+>
+
+<input
+  class="string"
+  type="password"
+  #signupPasswd (keyup.enter)="signup(signupUser.value, signupPasswd.value)"
+  placeholder="********"
+>
+
+<div class="center">
+  <button (click)="signup(signupUser.value, signupPasswd.value)">Sign Up</button>
+</div>

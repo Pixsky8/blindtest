@@ -1,22 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { LoginService } from '../interface/login/login.service';
-import { LoginRequest } from '../interface/login/login';
-import { ProfileService } from '../interface/profile/profile.service'
+import { LoginService } from '../../interface/login/login.service';
+import { LoginRequest } from '../../interface/login/login';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    providers: [
-        LoginService,
-        ProfileService,
-    ],
+    providers: [LoginService],
     styleUrls: []
 })
 export class LoginComponent implements OnInit {
     constructor(private loginService: LoginService,
-                private profileService: ProfileService,
+                private router: Router,
                 private snackBar: MatSnackBar) { }
 
     ngOnInit(): void { }
@@ -34,8 +31,10 @@ export class LoginComponent implements OnInit {
                     return;
                 }
 
-                if (rsp.status == "SUCCESS")
+                if (rsp.status == "SUCCESS") {
                     this.snackMessage("Successfully Logged in.");
+                    this.router.navigate(['/'])
+                }
                 else {
                     if (rsp.errorMessage == null)
                         this.snackMessage("Wrong login or password.");
@@ -45,16 +44,8 @@ export class LoginComponent implements OnInit {
             });
     }
 
-    getUserName() {
-        this.profileService.getProfile()
-            .subscribe(rsp => {
-                if (rsp == null)
-                    this.snackMessage("Server Error.");
-                else if (rsp.login == null)
-                    this.snackMessage("You are not logged in")
-                else
-                    this.snackMessage("Logged as: " + rsp.login);
-            })
+    createAccountRedirect() {
+        this.router.navigate(['/signup']);
     }
 
     snackMessage(message: string) {

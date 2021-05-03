@@ -11,7 +11,7 @@ export class AppComponent {
     title = 'Blindtest';
     static login: string | null = null;
 
-    getLogin(): string | null {
+    get getLogin(): string | null {
         return AppComponent.login;
     }
 }
