@@ -26,6 +26,13 @@ export class LoginService {
             );
     }
 
+    deleteLogin(): Observable<Response | null> {
+        return this.http.delete<Response>(this.loginUrl)
+            .pipe(
+                catchError(this.handleError<Response | null>('LogoutResponse', null))
+            )
+    }
+
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
             console.error(error);

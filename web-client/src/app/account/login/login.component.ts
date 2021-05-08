@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { LoginService } from '../../interface/login/login.service';
 import { LoginRequest } from '../../interface/login/login';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -44,11 +44,11 @@ export class LoginComponent implements OnInit {
             });
     }
 
-    createAccountRedirect() {
+    createAccountRedirect(): void {
         this.router.navigate(['/signup']);
     }
 
-    snackMessage(message: string) {
+    snackMessage(message: string): void {
         this.snackBar.open(message, "Close", {
             duration: 5000,
         });

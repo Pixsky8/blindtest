@@ -3,6 +3,7 @@
     <div class="sidebar">
       <div *ngIf="getLogin != null; else notLogged">
         <p>Logged as {{ getLogin }}</p>
+        <button (click)="logout()">Logout</button>
       </div>
 
       <ng-template #notLogged>
