@@ -1,9 +1,15 @@
 mat-drawer-container {
     height: 100%;
+    width: 100%;
+}
+
+mat-drawer.sidenav {
+    width: 25%;
 }
 
 div.sidebar {
-    margin: 2%;
+    margin: 5%;
+    width: 100%;
 }
 
 div.side-nav-body {

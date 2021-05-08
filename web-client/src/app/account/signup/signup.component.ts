@@ -19,8 +19,10 @@ export class SignupComponent implements OnInit {
     ngOnInit() { }
 
     signup(user: string, passwd: string): void {
+        if (user.length < 3)
+            this.snackMessage("Your user name must be longer than 3 characters.");
         if (passwd.length < 3)
-            this.snackMessage("Your password must be longer than 3 characters");
+            this.snackMessage("Your password must be longer than 3 characters.");
 
         var request: SignupRequest = {
             login: user,
@@ -30,7 +32,7 @@ export class SignupComponent implements OnInit {
         this.signupService.postLogin(request)
         .subscribe(rsp => {
             if (rsp == null) {
-                this.snackMessage("Could not get a valid response from server");
+                this.snackMessage("Could not get a valid response from server.");
                 return;
             }
 
@@ -45,6 +47,10 @@ export class SignupComponent implements OnInit {
                     this.snackMessage(rsp.errorMessage);
             }
         });
+    }
+
+    loginRedirect(): void {
+        this.router.navigate(['/login']);
     }
 
     snackMessage(message: string) {

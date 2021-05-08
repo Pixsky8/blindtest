@@ -1,13 +1,13 @@
-<mat-drawer-container class="example-container">
-  <mat-drawer #drawer class="example-sidenav" mode="over">
+<mat-drawer-container class="sidenav-container">
+  <mat-drawer #drawer class="sidenav" mode="over">
     <div class="sidebar">
       <div *ngIf="getLogin != null; else notLogged">
-        <p>Logged as {{ getLogin }}</p>
+        <h3>Logged as {{ getLogin }}</h3>
         <button (click)="logout()">Logout</button>
       </div>
 
       <ng-template #notLogged>
-        <p>You are not logged in</p>
+        <h3>You are not logged in.</h3>
       </ng-template>
     </div>
   </mat-drawer>
