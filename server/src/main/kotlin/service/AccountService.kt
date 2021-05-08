@@ -3,6 +3,7 @@ package service
 import repository.AccountRepository
 import repository.model.AccountModel
 import service.entity.AccountEntity
+import service.entity.AccountErrorEntity
 import tools.HashPassword
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
@@ -14,18 +15,21 @@ class AccountService {
         this.accountRepository = accountRepository
     }
 
-    fun createAccount(account: AccountEntity): Boolean {
+    fun createAccount(account: AccountEntity): AccountErrorEntity {
+        if (account.login.length < 3)
+            return AccountErrorEntity.CREAT_NAME_LEN
+
         if (getAccount(account.login) != null)
-            return false
+            return AccountErrorEntity.CREAT_EXIST
 
         val passwd_sha3 = HashPassword(account.password)
 
         if (passwd_sha3 == null) {
-            return false
+            return AccountErrorEntity.CREAT_PASSWD_ERR
         }
 
         accountRepository.createAccount(AccountModel(account.login, passwd_sha3))
-        return true
+        return AccountErrorEntity.NONE
     }
 
     fun listAccounts(): ArrayList<AccountEntity> {

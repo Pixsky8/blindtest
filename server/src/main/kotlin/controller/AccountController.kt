@@ -9,6 +9,7 @@ import controller.response.Response
 import io.netty.util.internal.logging.Log4JLoggerFactory
 import service.AccountService
 import service.entity.AccountEntity
+import service.entity.AccountErrorEntity
 
 class AccountController {
     val accountService: AccountService
@@ -19,8 +20,10 @@ class AccountController {
     }
 
     fun createAccount(request: AccountCreationRequest): Response {
-        val result: Boolean = accountService.createAccount(AccountEntity(request.login, request.password))
-        return Response()
+        val result: AccountErrorEntity = accountService.createAccount(AccountEntity(request.login, request.password))
+        if (result == AccountErrorEntity.NONE)
+            return Response()
+        return Response(Response.Result.FAILURE, result.toString(), result.getMessage())
     }
 
     // DEBUG ONLY
@@ -39,6 +42,10 @@ class AccountController {
             return Response();
 
         return Response(Response.Result.FAILURE, Response.ErrorCodes.LOGIN_FAIL, "Login failed")
+    }
+
+    fun logout(): Response {
+        return Response();
     }
 
     fun getProfile(request: ProfileRequest): ProfileResponse {

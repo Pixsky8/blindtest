@@ -91,6 +91,10 @@ fun main() {
                 }
                 call.respond(response)
             }
+            delete("/login") {
+                call.sessions.clear<LoginSession>()
+                call.respond(accountController.logout())
+            }
 
             get("/profile") {
                 val session = call.sessions.get<LoginSession>()

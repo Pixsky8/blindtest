@@ -12,7 +12,7 @@ open class Response {
     }
 
     val status: Result;
-    val errorCode: ErrorCodes?;
+    val errorCode: String?;
     val errorMessage: String?;
 
     constructor() {
@@ -23,9 +23,13 @@ open class Response {
 
     constructor(successStatus: Result, errorCode: ErrorCodes, errorMessage: String) {
         this.status = successStatus
-        this.errorCode = errorCode
+        this.errorCode = errorCode.toString()
         this.errorMessage = errorMessage
     }
 
-
+    constructor(successStatus: Result, errorCode: String, errorMessage: String) {
+        this.status = successStatus
+        this.errorCode = errorCode
+        this.errorMessage = errorMessage
+    }
 }
