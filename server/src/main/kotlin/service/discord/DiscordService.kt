@@ -4,7 +4,7 @@ import discord4j.core.DiscordClientBuilder
 import discord4j.core.GatewayDiscordClient
 import discord4j.core.`object`.entity.Message
 import discord4j.core.`object`.entity.User
-import discord4j.core.`object`.entity.channel.Channel
+import discord4j.core.`object`.entity.channel.MessageChannel
 import discord4j.core.event.domain.lifecycle.ReadyEvent
 import discord4j.core.event.domain.message.MessageCreateEvent
 import discord4j.voice.VoiceConnection
@@ -16,12 +16,12 @@ import java.lang.IllegalStateException
 
 
 class DiscordService {
-    val client: GatewayDiscordClient?
-    val musicService: MusicService
-    val cmdPrefix: String = "++"
-    var adminChannel: Channel? = null
+    private val client: GatewayDiscordClient?
+    private val musicService: MusicService
+    private var cmdPrefix: String = "++"
+    private var adminChannel: MessageChannel? = null
 
-    var logger: Logger = LoggerFactory.getLogger(DiscordService::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(DiscordService::class.java)
 
     constructor(token: String) {
         client = DiscordClientBuilder.create(token)
@@ -59,31 +59,33 @@ class DiscordService {
             .subscribe()
     }
 
-    fun commandDispatch(msg: Message): Publisher<out Any>? {
+    private fun commandDispatch(msg: Message): Publisher<out Any>? {
         val msgString = msg.content
 
         logger.info(msg.author.get().username + ": " + msgString)
 
-        return when (msgString.substring(cmdPrefix.length)) {
+        return when (msgString.split(" ")[0].substring(cmdPrefix.length)) {
             "ping" -> pingCommand(msg)
             "set_adm_chan" -> setAdmChanCommand(msg)
             "join" -> joinAudioCommand(msg)
+            "play" -> playAudioCommand(msg)
+            "stop" -> stopAudioCommand(msg)
             else -> unknownCommand(msg)
         }
     }
 
-    fun pingCommand(msg: Message): Mono<Message>? {
+    private fun pingCommand(msg: Message): Mono<Message>? {
         val channel = msg.channel.block() ?: return null
         return channel.createMessage("Pong!")
     }
 
-    fun setAdmChanCommand(msg: Message): Mono<Message>? {
+    private fun setAdmChanCommand(msg: Message): Mono<Message>? {
         val channel = msg.channel.block() ?: return null
         adminChannel = channel
         return channel.createMessage("Admin Channel Set.")
     }
 
-    fun joinAudioCommand(msg: Message): Mono<VoiceConnection>? {
+    private fun joinAudioCommand(msg: Message): Mono<VoiceConnection>? {
         val member = msg.authorAsMember.block() ?: return null
         val voiceState = member.voiceState.block() ?: return null
         val audioChannel = voiceState.channel.block() ?: return null
@@ -92,7 +94,20 @@ class DiscordService {
         }
     }
 
-    fun unknownCommand(msg: Message): Mono<Message>? {
+    private fun playAudioCommand(msg: Message): Mono<Message>? {
+        val arg = msg.content.split(" ")
+        musicService.playerManager.loadItem(arg[1], musicService.scheduler)
+        val channel = msg.channel.block() ?: return null
+        return channel.createMessage("Now playing: " + arg[1])
+    }
+
+    private fun stopAudioCommand(msg: Message): Mono<Message>? {
+        musicService.playerManager.shutdown()
+        val channel = msg.channel.block() ?: return null
+        return channel.createMessage("Stopped playing")
+    }
+
+    private fun unknownCommand(msg: Message): Mono<Message>? {
         val channel = msg.channel.block() ?: return null
         return channel.createMessage("Unknown Command: " + msg.content)
     }

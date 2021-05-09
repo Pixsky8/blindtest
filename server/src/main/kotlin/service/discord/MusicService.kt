@@ -1,8 +1,8 @@
 package service.discord
 
 import audio.LavaPlayerAudioProvider
+import audio.TrackScheduler
 import com.sedmelluq.discord.lavaplayer.format.AudioDataFormat
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
@@ -12,8 +12,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class MusicService {
     val playerManager: AudioPlayerManager
-    val audioPlayer: AudioPlayer
     val provider: AudioProvider
+    val scheduler: TrackScheduler
 
     constructor() {
         playerManager = DefaultAudioPlayerManager()
@@ -25,10 +25,12 @@ class MusicService {
                     stopping
                 )
             }
+
         AudioSourceManagers.registerRemoteSources(playerManager)
         AudioSourceManagers.registerLocalSource(playerManager)
 
-        audioPlayer = playerManager.createPlayer()
+        val audioPlayer = playerManager.createPlayer()
         provider = LavaPlayerAudioProvider(audioPlayer)
+        scheduler = TrackScheduler(audioPlayer)
     }
 }
