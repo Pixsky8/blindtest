@@ -1,3 +1,11 @@
+# Editors
 .idea/
-
 *.iml
+
+# Source Specific
+/src/main/java/database/
+
+# Compilation
+*.db
+target/
+

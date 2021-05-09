@@ -7,14 +7,17 @@ import discord4j.core.`object`.entity.User
 import discord4j.core.`object`.entity.channel.Channel
 import discord4j.core.event.domain.lifecycle.ReadyEvent
 import discord4j.core.event.domain.message.MessageCreateEvent
+import discord4j.voice.VoiceConnection
 import org.reactivestreams.Publisher
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Mono
+import java.lang.IllegalStateException
 
 
 class DiscordService {
     val client: GatewayDiscordClient?
+    val musicService: MusicService
     val cmdPrefix: String = "++"
     var adminChannel: Channel? = null
 
@@ -25,6 +28,11 @@ class DiscordService {
             .build()
             .login()
             .block()
+
+        if (client == null)
+            throw IllegalStateException("Could not initialize discord client.")
+
+        musicService = MusicService()
 
         client.getEventDispatcher().on(ReadyEvent::class.java)
             .subscribe { event: ReadyEvent ->
@@ -58,6 +66,8 @@ class DiscordService {
 
         return when (msgString.substring(cmdPrefix.length)) {
             "ping" -> pingCommand(msg)
+            "set_adm_chan" -> setAdmChanCommand(msg)
+            "join" -> joinAudioCommand(msg)
             else -> unknownCommand(msg)
         }
     }
@@ -71,6 +81,15 @@ class DiscordService {
         val channel = msg.channel.block() ?: return null
         adminChannel = channel
         return channel.createMessage("Admin Channel Set.")
+    }
+
+    fun joinAudioCommand(msg: Message): Mono<VoiceConnection>? {
+        val member = msg.authorAsMember.block() ?: return null
+        val voiceState = member.voiceState.block() ?: return null
+        val audioChannel = voiceState.channel.block() ?: return null
+        return audioChannel.join { spec ->
+            spec.setProvider(musicService.provider)
+        }
     }
 
     fun unknownCommand(msg: Message): Mono<Message>? {
