@@ -9,6 +9,7 @@ open class Response {
     enum class ErrorCodes {
         LOGIN_FAIL,
         NOT_LOGGED,
+        PERM_DENIED,
     }
 
     val status: Result;

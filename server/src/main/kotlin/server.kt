@@ -1,7 +1,9 @@
 import controller.AccountController
+import controller.GameController
 import controller.request.AccountCreationRequest
 import controller.request.LoginRequest
 import controller.request.ProfileRequest
+import controller.request.SetQuestionIdRequest
 import controller.response.Response
 import tools.cookie.LoginSession
 import io.ktor.application.*
@@ -22,7 +24,9 @@ import org.jooq.Log
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import repository.AccountRepository
+import repository.QuestionsRepository
 import service.AccountService
+import service.QuestionService
 import java.sql.Connection
 import kotlin.random.Random
 
@@ -57,6 +61,9 @@ fun igniteServer(): NettyApplicationEngine? {
     val accountRepository = AccountRepository(dataBase)
     val accountService = AccountService(accountRepository)
     val accountController = AccountController(accountService)
+    val questionRepository = QuestionsRepository("config/questions.json")
+    val questionService = QuestionService(questionRepository)
+    val gameController = GameController(questionService)
 
     return embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
         install(ContentNegotiation) {
@@ -73,6 +80,8 @@ fun igniteServer(): NettyApplicationEngine? {
             get("/") {
                 call.respondHtml(HttpStatusCode.OK, HTML::index)
             }
+
+            // Account Routes
             /* DEBUG
             get("/account/list") {
                 call.respond(accountController.listAccounts())
@@ -108,6 +117,22 @@ fun igniteServer(): NettyApplicationEngine? {
                     call.respond(accountController.getProfile(ProfileRequest(null)))
                 else
                     call.respond(accountController.getProfile(ProfileRequest(session.username)))
+            }
+
+            // Game Routes
+            get("/question") {
+                call.respond(gameController.getCurentQuestion())
+            }
+
+            put("/question") {
+                val session = call.sessions.get<LoginSession>()
+                call.respond(gameController.nextQuestion(session))
+            }
+
+            patch("/question") {
+                val session = call.sessions.get<LoginSession>()
+                val request = call.receive<SetQuestionIdRequest>()
+                call.respond(gameController.setQuestion(session, request))
             }
         }
     }.start(wait = false)
