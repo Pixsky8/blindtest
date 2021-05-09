@@ -6,14 +6,14 @@ import controller.request.ProfileRequest
 import controller.response.AccountListResponse
 import controller.response.ProfileResponse
 import controller.response.Response
-import io.netty.util.internal.logging.Log4JLoggerFactory
+import org.slf4j.LoggerFactory
 import service.AccountService
 import service.entity.AccountEntity
 import service.entity.AccountErrorEntity
 
 class AccountController {
     val accountService: AccountService
-    val logger = Log4JLoggerFactory.getInstance(AccountController::class.java)
+    val logger = LoggerFactory.getLogger(AccountController::class.java)
 
     constructor(accountService: AccountService) {
         this.accountService = accountService
@@ -21,8 +21,12 @@ class AccountController {
 
     fun createAccount(request: AccountCreationRequest): Response {
         val result: AccountErrorEntity = accountService.createAccount(AccountEntity(request.login, request.password))
-        if (result == AccountErrorEntity.NONE)
+        if (result == AccountErrorEntity.NONE) {
+            logger.info("New account created: " + request.login)
             return Response()
+        }
+
+        logger.info("Account creation failed: " + request.login + " err: " + result.toString())
         return Response(Response.Result.FAILURE, result.toString(), result.getMessage())
     }
 
@@ -38,14 +42,20 @@ class AccountController {
     }
 
     fun login(request: LoginRequest): Response /*PLACE HOLDER*/ {
-        if (accountService.samePassword(AccountEntity(request.login, request.password)))
-            return Response();
+        if (accountService.samePassword(AccountEntity(request.login, request.password))) {
+            logger.info(request.login + " logged in")
+            return Response()
+        }
 
+        logger.info(request.login + ": log in failed")
         return Response(Response.Result.FAILURE, Response.ErrorCodes.LOGIN_FAIL, "Login failed")
     }
 
-    fun logout(): Response {
-        return Response();
+    fun logout(username: String?): Response {
+        if (username == null)
+            return Response(Response.Result.FAILURE, Response.ErrorCodes.NOT_LOGGED, "Not logged in")
+        logger.info(username + " logged out")
+        return Response()
     }
 
     fun getProfile(request: ProfileRequest): ProfileResponse {

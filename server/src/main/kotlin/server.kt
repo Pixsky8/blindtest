@@ -18,6 +18,7 @@ import io.ktor.sessions.*
 import kotlinx.html.*
 import org.h2.jdbcx.JdbcDataSource
 import org.jooq.DSLContext
+import org.jooq.Log
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import repository.AccountRepository
@@ -72,10 +73,10 @@ fun igniteServer(): NettyApplicationEngine? {
             get("/") {
                 call.respondHtml(HttpStatusCode.OK, HTML::index)
             }
-            // DEBUG
+            /* DEBUG
             get("/account/list") {
                 call.respond(accountController.listAccounts())
-            }
+            }*/
 
             post("/account") {
                 val request = call.receive<AccountCreationRequest>()
@@ -92,8 +93,13 @@ fun igniteServer(): NettyApplicationEngine? {
                 call.respond(response)
             }
             delete("/login") {
-                call.sessions.clear<LoginSession>()
-                call.respond(accountController.logout())
+                val session = call.sessions.get<LoginSession>()
+                if (session != null) {
+                    call.sessions.clear<LoginSession>()
+                    call.respond(accountController.logout(session.username))
+                }
+                else
+                    call.respond(accountController.logout(null))
             }
 
             get("/profile") {
