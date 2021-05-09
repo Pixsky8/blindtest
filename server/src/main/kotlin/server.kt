@@ -45,11 +45,11 @@ fun setupDatabaseConnection(): Connection? {
     return dataSource.connection
 }
 
-fun main() {
+fun igniteServer(): NettyApplicationEngine? {
     val connection = setupDatabaseConnection();
     if (connection == null) {
         println("Could not connect to database")
-        return
+        return null
     }
 
     val dataBase: DSLContext = DSL.using(connection, SQLDialect.POSTGRES)
@@ -57,7 +57,7 @@ fun main() {
     val accountService = AccountService(accountRepository)
     val accountController = AccountController(accountService)
 
-    embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
+    return embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
         install(ContentNegotiation) {
             jackson()
         }
@@ -104,5 +104,5 @@ fun main() {
                     call.respond(accountController.getProfile(ProfileRequest(session.username)))
             }
         }
-    }.start(wait = true)
+    }.start(wait = false)
 }
