@@ -13,6 +13,10 @@ export class WebsocketService {
         else
             this.webSocketUrl = "ws://" + location.origin.substring(7) + "/api/ws/question"
         this.socket = new WebSocket(this.webSocketUrl);
+        this.socket.onopen = function(event) {
+            console.log("Successfully opened socket.", this);
+            this.send("Hello");
+        }
     }
 
     get getSocket(): WebSocket {

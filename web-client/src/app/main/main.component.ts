@@ -31,15 +31,16 @@ export class MainComponent implements OnInit {
             if (rsp == null || ((rsp.status != "FAILURE" || rsp.login == null)
                 && rsp.errorCode == "NOT_LOGGED")) {
                 this.router.navigate(['/login']);
+                return;
             }
             else {
                 AppComponent.login = rsp.login;
             }
         });
         var self = this;
-        this.websocketService.getSocket.send("LOL");
+        console.log(this.websocketService.getSocket);
         this.websocketService.getSocket.onmessage = function (event) {
-            console.log(event);
+            console.log("New socket message");
             if (event.data == "UPDATE")
                 self.fetchQuestion();
         }
@@ -54,6 +55,12 @@ export class MainComponent implements OnInit {
             }
             this.question = rsp;
         });
+    }
+
+    get getQuestionId(): number {
+        if (this.question == null || this.question.id == null)
+            return -1;
+        return this.question.id;
     }
 
     snackMessage(message: string) {

@@ -98,10 +98,12 @@ fun igniteServer(): NettyApplicationEngine? {
             }
 
             // Account Routes
+            /*
             // DEBUG
             get("/account/list") {
                 call.respond(accountController.listAccounts())
             }
+            */
 
             post("/account") {
                 val request = call.receive<AccountCreationRequest>()
