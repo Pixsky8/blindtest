@@ -31,10 +31,9 @@ import repository.QuestionsRepository
 import service.AccountService
 import service.GameService
 import service.QuestionService
+import service.discord.DiscordService
 import java.sql.Connection
-import java.time.Duration
 import kotlin.random.Random
-import kotlin.time.ExperimentalTime
 
 
 fun HTML.index() {
@@ -56,8 +55,7 @@ fun setupDatabaseConnection(): Connection? {
     return dataSource.connection
 }
 
-@OptIn(ExperimentalTime::class)
-fun igniteServer(): NettyApplicationEngine? {
+fun igniteServer(discordToken: String): NettyApplicationEngine? {
     val logger = LoggerFactory.getLogger("Ktor Server")
 
     val connection = setupDatabaseConnection();
@@ -75,12 +73,13 @@ fun igniteServer(): NettyApplicationEngine? {
 
     val accountService = AccountService(accountRepository, adminRepository)
     val gameService = GameService(gameConnections)
-    val questionService = QuestionService(questionRepository, accountService, gameService)
+    val discordService = DiscordService(discordToken)
+    val questionService = QuestionService(questionRepository, accountService, discordService, gameService)
 
     val accountController = AccountController(accountService)
     val gameController = GameController(questionService)
 
-    return embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
+    return embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
         install(ContentNegotiation) {
             jackson()
         }

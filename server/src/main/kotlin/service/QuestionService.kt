@@ -5,31 +5,41 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import repository.QuestionsRepository
+import service.discord.DiscordService
 import service.entity.ChangeQuestionEntity
 import service.entity.QuestionEntity
 
 class QuestionService {
     val questionRepository: QuestionsRepository
     val accountService: AccountService
+    val discordService: DiscordService
     val gameService: GameService
     var currentQuestion: Int = -1
 
     constructor(questionRepository: QuestionsRepository,
                 accountService: AccountService,
+                discordService: DiscordService,
                 gameService: GameService) {
         this.questionRepository = questionRepository
         this.accountService = accountService
+        this.discordService = discordService
         this.gameService = gameService
     }
 
     fun resetCurrentQuestion(username: String, questionId: Int): ChangeQuestionEntity {
         if (!accountService.isAdminAccount(username))
             return ChangeQuestionEntity.NO_PERM
-        if (questionRepository.getQuestion(questionId) == null)
+
+        val newQuestion = questionRepository.getQuestion(questionId)
+        if (newQuestion == null)
             return ChangeQuestionEntity.NO_QUEST
+
         currentQuestion = questionId
 
         gameService.sendUpdateNotification()
+        if (newQuestion.audio == true && newQuestion.audioFile != null) {
+            discordService.playAudio(newQuestion.audioFile!!)
+        }
 
         return ChangeQuestionEntity.OK
     }

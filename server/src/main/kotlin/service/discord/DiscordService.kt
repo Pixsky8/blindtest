@@ -12,6 +12,7 @@ import org.reactivestreams.Publisher
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Mono
+import java.io.File
 import java.lang.IllegalStateException
 
 
@@ -110,5 +111,16 @@ class DiscordService {
     private fun unknownCommand(msg: Message): Mono<Message>? {
         val channel = msg.channel.block() ?: return null
         return channel.createMessage("Unknown Command: " + msg.content)
+    }
+
+    fun playAudio(filePath: String): Boolean {
+        val file = File(filePath)
+        if (!file.isFile) {
+            logger.error("Could not find file `$filePath'.")
+            return false
+        }
+
+        musicService.playerManager.loadItem(filePath, musicService.scheduler)
+        return true
     }
 }
