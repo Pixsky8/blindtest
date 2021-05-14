@@ -97,15 +97,15 @@ class DiscordService {
 
     private fun playAudioCommand(msg: Message): Mono<Message>? {
         val arg = msg.content.split(" ")
-        musicService.playerManager.loadItem(arg[1], musicService.scheduler)
+        musicService.play(arg[1], false)
         val channel = msg.channel.block() ?: return null
         return channel.createMessage("Now playing: " + arg[1])
     }
 
     private fun stopAudioCommand(msg: Message): Mono<Message>? {
-        musicService.playerManager.shutdown()
         val channel = msg.channel.block() ?: return null
-        return channel.createMessage("Stopped playing")
+        musicService.stop()
+        return channel.createMessage("Stopped playing.")
     }
 
     private fun unknownCommand(msg: Message): Mono<Message>? {
@@ -120,7 +120,7 @@ class DiscordService {
             return false
         }
 
-        musicService.playerManager.loadItem(filePath, musicService.scheduler)
+        musicService.play(filePath, true)
         return true
     }
 }
