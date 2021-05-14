@@ -1,19 +1,29 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from '@angular/router';
+import { MatSnackBar } from "@angular/material/snack-bar";
 
-import { ProfileService } from "../interface/profile/profile.service";
+import { QuestionService } from "../service/question/question.service"
+import { ProfileService } from "../service/profile/profile.service";
+import { WebsocketService } from "../service/websocket/websocket.service";
 
 import { AppComponent } from "../app.component";
+import { QuestionResponse } from "../service/question/question";
 
 @Component({
     selector: 'app-main',
     templateUrl: './main.component.html',
-    providers: [ProfileService],
+    providers: [QuestionService, ProfileService, WebsocketService],
     styleUrls: []
 })
 export class MainComponent implements OnInit {
-    constructor(private profileService: ProfileService,
-                private router: Router) {}
+    question: QuestionResponse | null = null;
+    message: string | null = null;
+
+    constructor(private questionService: QuestionService,
+                private profileService: ProfileService,
+                private websocketService: WebsocketService,
+                private router: Router,
+                private snackBar: MatSnackBar) {}
 
     ngOnInit() {
         this.profileService.getProfile().subscribe(rsp => {
@@ -25,6 +35,30 @@ export class MainComponent implements OnInit {
             else {
                 AppComponent.login = rsp.login;
             }
+        });
+        var self = this;
+        this.websocketService.getSocket.send("LOL");
+        this.websocketService.getSocket.onmessage = function (event) {
+            console.log(event);
+            if (event.data == "UPDATE")
+                self.fetchQuestion();
+        }
+    }
+
+    fetchQuestion() {
+        this.questionService.getCurrentQuestion().subscribe(rsp => {
+            if (rsp == null) {
+                this.snackMessage("Could not get a valid answer from server.");
+                this.question = null;
+                return;
+            }
+            this.question = rsp;
+        });
+    }
+
+    snackMessage(message: string) {
+        this.snackBar.open(message, "Close", {
+            duration: 5000,
         });
     }
 }

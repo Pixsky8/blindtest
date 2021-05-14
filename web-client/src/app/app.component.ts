@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { LoginService } from './interface/login/login.service';
+import { LoginService } from './service/login/login.service';
 
 @Component({
     selector: 'app-root',

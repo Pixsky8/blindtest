@@ -5,7 +5,7 @@ import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 import { SignupRequest } from "./signup";
-import { Response } from "src/app/interface/response";
+import { Response } from "src/app/service/response";
 
 @Injectable()
 export class SignupService {

@@ -2,8 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 
-import { SignupRequest } from "src/app/interface/signup/signup";
-import { SignupService } from "src/app/interface/signup/signup.service";
+import { SignupRequest } from "src/app/service/signup/signup";
+import { SignupService } from "src/app/service/signup/signup.service";
 
 @Component({
     selector: 'app-sign-up',
