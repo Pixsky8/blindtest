@@ -1,9 +1,5 @@
 package service
 
-import io.ktor.http.cio.websocket.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import repository.QuestionsRepository
 import service.discord.DiscordService
 import service.entity.ChangeQuestionEntity

@@ -1,12 +1,9 @@
 package service
 
 import io.ktor.http.cio.websocket.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
-import java.lang.Thread.sleep
 
 class GameService {
     val gameConnections: Set<DefaultWebSocketSession>
