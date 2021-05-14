@@ -10,6 +10,7 @@ import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.html.*
 import io.ktor.http.*
+import io.ktor.http.cio.websocket.*
 import io.ktor.jackson.*
 import io.ktor.request.*
 import io.ktor.response.*
@@ -17,19 +18,23 @@ import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.sessions.*
+import io.ktor.websocket.*
 import kotlinx.html.*
 import org.h2.jdbcx.JdbcDataSource
 import org.jooq.DSLContext
-import org.jooq.Log
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
+import org.slf4j.LoggerFactory
 import repository.AccountRepository
 import repository.AdminRepository
 import repository.QuestionsRepository
 import service.AccountService
+import service.GameService
 import service.QuestionService
 import java.sql.Connection
+import java.time.Duration
 import kotlin.random.Random
+import kotlin.time.ExperimentalTime
 
 
 fun HTML.index() {
@@ -51,12 +56,17 @@ fun setupDatabaseConnection(): Connection? {
     return dataSource.connection
 }
 
+@OptIn(ExperimentalTime::class)
 fun igniteServer(): NettyApplicationEngine? {
+    val logger = LoggerFactory.getLogger("Ktor Server")
+
     val connection = setupDatabaseConnection();
     if (connection == null) {
         println("Could not connect to database")
         return null
     }
+
+    val gameConnections = HashSet<DefaultWebSocketSession>()
 
     val dataBase: DSLContext = DSL.using(connection, SQLDialect.POSTGRES)
     val accountRepository = AccountRepository(dataBase)
@@ -64,7 +74,8 @@ fun igniteServer(): NettyApplicationEngine? {
     val questionRepository = QuestionsRepository("config/questions.json")
 
     val accountService = AccountService(accountRepository, adminRepository)
-    val questionService = QuestionService(questionRepository, accountService)
+    val gameService = GameService(gameConnections)
+    val questionService = QuestionService(questionRepository, accountService, gameService)
 
     val accountController = AccountController(accountService)
     val gameController = GameController(questionService)
@@ -80,6 +91,7 @@ fun igniteServer(): NettyApplicationEngine? {
                 transform(SessionTransportTransformerMessageAuthentication(secretSignKey))
             }
         }
+        install(WebSockets)
         routing {
             get("/") {
                 call.respondHtml(HttpStatusCode.OK, HTML::index)
@@ -123,7 +135,7 @@ fun igniteServer(): NettyApplicationEngine? {
                     call.respond(accountController.getProfile(ProfileRequest(session.username)))
             }
 
-            // Game Routes
+            // Game Setup Routes
             get("/question") {
                 call.respond(gameController.getCurentQuestion())
             }
@@ -137,6 +149,26 @@ fun igniteServer(): NettyApplicationEngine? {
                 val session = call.sessions.get<LoginSession>()
                 val request = call.receive<SetQuestionIdRequest>()
                 call.respond(gameController.setQuestion(session, request))
+            }
+
+            webSocket("/ws/question") {
+                outgoing.send(Frame.Text("CONNECTED"))
+                logger.info("New websocket")
+                gameConnections.add(this)
+                try {
+                    for (frame in incoming) {
+                        when (frame) {
+                            is Frame.Text -> {
+                                val text = frame.readText()
+                                outgoing.send(Frame.Text("YOU SAID: $text"))
+                            }
+                        }
+                    }
+                }
+                finally {
+                    logger.info(this.toString() + " left.")
+                    gameConnections.remove(this)
+                }
             }
         }
     }.start(wait = false)
