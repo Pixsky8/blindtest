@@ -4,6 +4,7 @@ import controller.request.SetQuestionIdRequest
 import controller.response.QuestionResponse
 import controller.response.Response
 import service.QuestionService
+import service.entity.ChangeQuestionEntity
 import tools.cookie.LoginSession
 
 class GameController {
@@ -35,12 +36,19 @@ class GameController {
         if (session == null)
             return Response(
                 Response.Result.FAILURE,
-                Response.ErrorCodes.PERM_DENIED,
-                "Cannot change question without admin permissions."
+                Response.ErrorCodes.NOT_LOGGED,
+                "You must login."
             )
 
-        questionService.resetCurrentQuestion(session.username, request.id)
-        return Response()
+        val res: ChangeQuestionEntity = questionService.resetCurrentQuestion(session.username, request.id)
+
+        if (res == ChangeQuestionEntity.OK)
+            return Response()
+        return Response(
+            Response.Result.FAILURE,
+            res.toString(),
+            res.message
+        )
     }
 
     fun nextQuestion(session: LoginSession?): Response {
@@ -51,7 +59,13 @@ class GameController {
                 "Cannot change question without admin permissions."
             )
 
-        questionService.nextQuestion(session.username)
-        return Response()
+        val res: ChangeQuestionEntity = questionService.nextQuestion(session.username)
+        if (res == ChangeQuestionEntity.OK)
+            return Response()
+        return Response(
+            Response.Result.FAILURE,
+            res.toString(),
+            res.message
+        )
     }
 }

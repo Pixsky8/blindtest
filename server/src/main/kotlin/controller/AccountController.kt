@@ -61,6 +61,7 @@ class AccountController {
     fun getProfile(request: ProfileRequest): ProfileResponse {
         if (request.user_login == null)
             return ProfileResponse(Response.Result.FAILURE, Response.ErrorCodes.NOT_LOGGED, "Not logged in")
-        return ProfileResponse(request.user_login)
+        val isAdmin: Boolean = accountService.isAdminAccount(request.user_login)
+        return ProfileResponse(request.user_login, isAdmin)
     }
 }

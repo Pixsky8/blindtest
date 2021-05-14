@@ -5,7 +5,7 @@ import org.jooq.DSLContext
 import repository.model.AccountModel
 
 class AccountRepository {
-    private val dataBase: DSLContext;
+    private val dataBase: DSLContext
 
     constructor(dataBase: DSLContext) {
         this.dataBase = dataBase

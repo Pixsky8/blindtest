@@ -24,6 +24,7 @@ import org.jooq.Log
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import repository.AccountRepository
+import repository.AdminRepository
 import repository.QuestionsRepository
 import service.AccountService
 import service.QuestionService
@@ -59,10 +60,13 @@ fun igniteServer(): NettyApplicationEngine? {
 
     val dataBase: DSLContext = DSL.using(connection, SQLDialect.POSTGRES)
     val accountRepository = AccountRepository(dataBase)
-    val accountService = AccountService(accountRepository)
-    val accountController = AccountController(accountService)
+    val adminRepository = AdminRepository(dataBase)
     val questionRepository = QuestionsRepository("config/questions.json")
-    val questionService = QuestionService(questionRepository)
+
+    val accountService = AccountService(accountRepository, adminRepository)
+    val questionService = QuestionService(questionRepository, accountService)
+
+    val accountController = AccountController(accountService)
     val gameController = GameController(questionService)
 
     return embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
@@ -82,10 +86,10 @@ fun igniteServer(): NettyApplicationEngine? {
             }
 
             // Account Routes
-            /* DEBUG
+            // DEBUG
             get("/account/list") {
                 call.respond(accountController.listAccounts())
-            }*/
+            }
 
             post("/account") {
                 val request = call.receive<AccountCreationRequest>()

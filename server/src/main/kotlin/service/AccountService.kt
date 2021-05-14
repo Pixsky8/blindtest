@@ -1,6 +1,8 @@
 package service
 
+import database.tables.Admin
 import repository.AccountRepository
+import repository.AdminRepository
 import repository.model.AccountModel
 import service.entity.AccountEntity
 import service.entity.AccountErrorEntity
@@ -10,13 +12,16 @@ import java.security.MessageDigest
 
 class AccountService {
     private val accountRepository: AccountRepository
+    private val adminRepository: AdminRepository
 
-    constructor(accountRepository: AccountRepository) {
+    constructor(accountRepository: AccountRepository,
+                adminRepository: AdminRepository) {
         this.accountRepository = accountRepository
+        this.adminRepository = adminRepository
     }
 
     fun createAccount(account: AccountEntity): AccountErrorEntity {
-        if (account.login.length < 3)
+        if (account.login.length < 3 || account.login.length > 32)
             return AccountErrorEntity.CREAT_NAME_LEN
 
         if (getAccount(account.login) != null)
@@ -63,5 +68,9 @@ class AccountService {
 
         return account.login.equals(accountEntity.login)
                 && passwd_sha3.equals(accountEntity.password)
+    }
+
+    fun isAdminAccount(username: String): Boolean {
+        return adminRepository.isAdmin(username)
     }
 }

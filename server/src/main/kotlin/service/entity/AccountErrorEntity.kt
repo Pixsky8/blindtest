@@ -1,7 +1,7 @@
 package service.entity
 
 enum class AccountErrorEntity {
-    CREAT_NAME_LEN("Account name must be at least 3 characters long."),
+    CREAT_NAME_LEN("Account name must be at least 3 characters long and cannot be longer than 32 characters."),
     CREAT_EXIST("Account name is already used."),
     CREAT_PASSWD_ERR("Try a different password"),
     NONE("");
