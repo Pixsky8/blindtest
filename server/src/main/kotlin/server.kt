@@ -27,6 +27,7 @@ import org.jooq.impl.DSL
 import org.slf4j.LoggerFactory
 import repository.AccountRepository
 import repository.AdminRepository
+import repository.AnswerRepository
 import repository.QuestionsRepository
 import service.AccountService
 import service.GameService
@@ -34,7 +35,6 @@ import service.QuestionService
 import service.discord.DiscordService
 import java.sql.Connection
 import kotlin.random.Random
-
 
 fun HTML.index() {
     head {
@@ -69,15 +69,17 @@ fun igniteServer(discordToken: String): NettyApplicationEngine? {
     val dataBase: DSLContext = DSL.using(connection, SQLDialect.POSTGRES)
     val accountRepository = AccountRepository(dataBase)
     val adminRepository = AdminRepository(dataBase)
+    val answerRepository = AnswerRepository()
     val questionRepository = QuestionsRepository("config/questions.json")
 
     val accountService = AccountService(accountRepository, adminRepository)
     val gameService = GameService(gameConnections)
     val discordService = DiscordService(discordToken)
-    val questionService = QuestionService(questionRepository, accountService, discordService, gameService)
+    val questionService = QuestionService(answerRepository, questionRepository, accountService, discordService,
+        gameService)
 
     val accountController = AccountController(accountService)
-    val gameController = GameController(questionService)
+    val gameController = GameController(accountService, gameService, questionService)
 
     return embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
         install(ContentNegotiation) {

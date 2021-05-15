@@ -1,6 +1,6 @@
 package controller.request
 
-class AnwserRequest {
+class AnswerRequest {
     val questionId: Int
     val anwser: String
 

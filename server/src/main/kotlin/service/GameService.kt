@@ -4,6 +4,7 @@ import io.ktor.http.cio.websocket.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.slf4j.LoggerFactory
+import repository.AnswerRepository
 
 class GameService {
     val gameConnections: Set<DefaultWebSocketSession>
@@ -13,7 +14,7 @@ class GameService {
         this.gameConnections = gameConnections
     }
 
-    fun sendUpdateNotification() {
+    fun sendQuestionUpdateNotification() {
         GlobalScope.async {
             logger.info("Sending update notification.")
             for (connection in gameConnections)
