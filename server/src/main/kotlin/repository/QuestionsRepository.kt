@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import repository.model.QuestionListModel
 import repository.model.QuestionModel
 import java.io.File
-import java.lang.IllegalArgumentException
 
 class QuestionsRepository {
     var questionsList: QuestionListModel

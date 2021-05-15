@@ -4,7 +4,6 @@ import io.ktor.http.cio.websocket.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.slf4j.LoggerFactory
-import repository.AnswerRepository
 import repository.GameRepository
 
 class GameService {

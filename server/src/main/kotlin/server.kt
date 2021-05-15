@@ -2,7 +2,6 @@ import controller.AccountController
 import controller.GameController
 import controller.request.*
 import controller.response.Response
-import tools.cookie.LoginSession
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.html.*
@@ -19,7 +18,6 @@ import io.ktor.websocket.*
 import kotlinx.html.*
 import org.h2.jdbcx.JdbcDataSource
 import org.jooq.DSLContext
-import org.jooq.Log
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import org.slf4j.LoggerFactory
@@ -28,6 +26,7 @@ import service.AccountService
 import service.GameService
 import service.QuestionService
 import service.discord.DiscordService
+import tools.cookie.LoginSession
 import java.sql.Connection
 import kotlin.random.Random
 
