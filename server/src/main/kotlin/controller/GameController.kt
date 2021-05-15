@@ -1,10 +1,12 @@
 package controller
 
 import controller.request.AnswerRequest
+import controller.request.PointsRequest
 import controller.request.SetQuestionIdRequest
 import controller.response.AnswersResponse
 import controller.response.QuestionResponse
 import controller.response.Response
+import controller.response.ScoreboardResponse
 import service.AccountService
 import service.GameService
 import service.QuestionService
@@ -111,5 +113,28 @@ class GameController {
             )
 
         return AnswersResponse(questionService.currentQuestion, answers)
+    }
+
+    fun getScoreBoard(): ScoreboardResponse {
+        return ScoreboardResponse(gameService.getScoreBoard())
+    }
+
+    fun givePoints(session: LoginSession?, request: PointsRequest): Response {
+        if (session == null || !accountService.isAdminAccount(session.username))
+            return Response(
+                Response.Result.FAILURE,
+                Response.ErrorCodes.PERM_DENIED,
+                "You must be an administrator to do that."
+            )
+
+        if (accountService.getAccount(request.username) == null)
+            return Response(
+                Response.Result.FAILURE,
+                "UKNW_USER",
+                "Unknown user ${request.username}."
+            )
+
+        gameService.givePoints(request.username, request.points)
+        return Response()
     }
 }

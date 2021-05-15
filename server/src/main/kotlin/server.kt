@@ -1,9 +1,6 @@
 import controller.AccountController
 import controller.GameController
-import controller.request.AccountCreationRequest
-import controller.request.LoginRequest
-import controller.request.ProfileRequest
-import controller.request.SetQuestionIdRequest
+import controller.request.*
 import controller.response.Response
 import tools.cookie.LoginSession
 import io.ktor.application.*
@@ -22,13 +19,11 @@ import io.ktor.websocket.*
 import kotlinx.html.*
 import org.h2.jdbcx.JdbcDataSource
 import org.jooq.DSLContext
+import org.jooq.Log
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import org.slf4j.LoggerFactory
-import repository.AccountRepository
-import repository.AdminRepository
-import repository.AnswerRepository
-import repository.QuestionsRepository
+import repository.*
 import service.AccountService
 import service.GameService
 import service.QuestionService
@@ -70,10 +65,11 @@ fun igniteServer(discordToken: String): NettyApplicationEngine? {
     val accountRepository = AccountRepository(dataBase)
     val adminRepository = AdminRepository(dataBase)
     val answerRepository = AnswerRepository()
+    val gameRepository = GameRepository()
     val questionRepository = QuestionsRepository("config/questions.json")
 
     val accountService = AccountService(accountRepository, adminRepository)
-    val gameService = GameService(gameConnections)
+    val gameService = GameService(gameRepository, gameConnections)
     val discordService = DiscordService(discordToken)
     val questionService = QuestionService(answerRepository, questionRepository, accountService, discordService,
         gameService)
@@ -152,6 +148,29 @@ fun igniteServer(discordToken: String): NettyApplicationEngine? {
                 val session = call.sessions.get<LoginSession>()
                 val request = call.receive<SetQuestionIdRequest>()
                 call.respond(gameController.setQuestion(session, request))
+            }
+
+            // Answer Routes
+            get("/answer") {
+                val session = call.sessions.get<LoginSession>()
+                call.respond(gameController.getAnswers(session))
+            }
+
+            post("/answer") {
+                val session = call.sessions.get<LoginSession>()
+                val request = call.receive<AnswerRequest>()
+                call.respond(gameController.answerQuestion(session, request))
+            }
+
+            // Scoreboard Routes
+            get("/scoreboard") {
+                call.respond(gameController.getScoreBoard())
+            }
+
+            put("/scoreboard") {
+                val session = call.sessions.get<LoginSession>()
+                val request = call.receive<PointsRequest>()
+                call.respond(gameController.givePoints(session, request))
             }
 
             webSocket("/ws/question") {
