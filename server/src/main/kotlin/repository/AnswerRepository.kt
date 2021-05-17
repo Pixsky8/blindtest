@@ -5,6 +5,11 @@ import repository.model.AnswerErrorModel
 class AnswerRepository {
     var answerMap = HashMap<Int, HashMap<String, String>>() // <questionId, <username, answer>>
 
+    fun addQuestion(questionId: Int) {
+        if (answerMap[questionId] == null)
+            answerMap[questionId] = HashMap()
+    }
+
     fun addAnswer(questionId: Int, username: String, answer: String): AnswerErrorModel {
         var questionAnswers = answerMap[questionId] ?: return AnswerErrorModel.NO_QUESTION
 

@@ -28,7 +28,7 @@ class QuestionService {
         this.gameService = gameService
     }
 
-    fun resetCurrentQuestion(username: String, questionId: Int): ChangeQuestionEntity {
+    fun setCurrentQuestion(username: String, questionId: Int): ChangeQuestionEntity {
         if (!accountService.isAdminAccount(username))
             return ChangeQuestionEntity.NO_PERM
 
@@ -38,7 +38,9 @@ class QuestionService {
 
         currentQuestion = questionId
 
+        answerRepository.addQuestion(currentQuestion)
         gameService.sendQuestionUpdateNotification()
+
         if (newQuestion.audio == true && newQuestion.audioFile != null) {
             discordService.playAudio(newQuestion.audioFile!!)
         }
@@ -47,15 +49,7 @@ class QuestionService {
     }
 
     fun nextQuestion(username: String): ChangeQuestionEntity {
-        if (!accountService.isAdminAccount(username))
-            return ChangeQuestionEntity.NO_PERM
-        if (questionRepository.getQuestion(currentQuestion + 1) == null)
-            return ChangeQuestionEntity.NO_QUEST
-        currentQuestion++
-
-        gameService.sendQuestionUpdateNotification()
-
-        return ChangeQuestionEntity.OK
+        return setCurrentQuestion(username, currentQuestion + 1)
     }
 
     fun answerQuestion(questionId: Int, username: String, answer: String): AnswerErrorEntity {

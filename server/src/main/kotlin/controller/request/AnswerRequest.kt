@@ -2,10 +2,10 @@ package controller.request
 
 class AnswerRequest {
     val questionId: Int
-    val anwser: String
+    val answer: String
 
-    constructor(questionId: Int, anwser: String) {
+    constructor(questionId: Int, answer: String) {
         this.questionId = questionId
-        this.anwser = anwser
+        this.answer = answer
     }
 }

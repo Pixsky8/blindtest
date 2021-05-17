@@ -53,7 +53,7 @@ class GameController {
                 "You must login."
             )
 
-        val res: ChangeQuestionEntity = questionService.resetCurrentQuestion(session.username, request.id)
+        val res: ChangeQuestionEntity = questionService.setCurrentQuestion(session.username, request.id)
 
         if (res == ChangeQuestionEntity.OK)
             return Response()
@@ -90,7 +90,7 @@ class GameController {
                 "You must be logged in."
             )
 
-        val res = questionService.answerQuestion(request.questionId, session.username, request.anwser)
+        val res = questionService.answerQuestion(request.questionId, session.username, request.answer)
         if (res == AnswerErrorEntity.OK)
             return Response()
         return Response(Response.Result.FAILURE, res.toString(), res.message)
