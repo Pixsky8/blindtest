@@ -4,7 +4,8 @@
       "id": 0,
       "theme": "Blindtest",
       "audio": true,
-      "audioFile": "path/to/file"
+      "audioFile": "/mnt/hdd/Musique/Heartbeat.mp3",
+      "question": "Musique ?"
     },
     {
       "id": 1,

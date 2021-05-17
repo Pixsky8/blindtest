@@ -7,7 +7,7 @@ import { ProfileService } from "../service/profile/profile.service";
 import { WebsocketService } from "../service/websocket/websocket.service";
 
 import { AppComponent } from "../app.component";
-import { QuestionResponse } from "../service/question/question";
+import { Question, QuestionResponse } from "../service/question/question";
 
 @Component({
     selector: 'app-main',
@@ -16,7 +16,7 @@ import { QuestionResponse } from "../service/question/question";
     styleUrls: []
 })
 export class MainComponent implements OnInit {
-    question: QuestionResponse | null = null;
+    question: Question | null | undefined = undefined;
     message: string | null = null;
 
     constructor(private questionService: QuestionService,
@@ -37,6 +37,7 @@ export class MainComponent implements OnInit {
                 AppComponent.login = rsp.login;
             }
         });
+        this.fetchQuestion();
         var self = this;
         console.log(this.websocketService.getSocket);
         this.websocketService.getSocket.onmessage = function (event) {
@@ -50,17 +51,27 @@ export class MainComponent implements OnInit {
         this.questionService.getCurrentQuestion().subscribe(rsp => {
             if (rsp == null) {
                 this.snackMessage("Could not get a valid answer from server.");
-                this.question = null;
-                return;
+                this.question = undefined;
             }
-            this.question = rsp;
+            else if (rsp.id == -1)
+                this.question = null;
+            else if (rsp.id == null
+                || rsp.theme == null || rsp.audio == null
+                || rsp.question == null)
+                this.question = undefined;
+            else {
+                this.question = {
+                    id: rsp.id,
+                    theme: rsp.theme,
+                    audio: rsp.audio,
+                    question: rsp.question
+                };
+            }
         });
     }
 
-    get getQuestionId(): number {
-        if (this.question == null || this.question.id == null)
-            return -1;
-        return this.question.id;
+    get getQuestion(): Question | null | undefined {
+        return this.question;
     }
 
     snackMessage(message: string) {

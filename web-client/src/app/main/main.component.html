@@ -1,1 +1,13 @@
-<h3>{{ getQuestionId }}</h3>
+<div [hidden]="question != undefined || question == null">
+    <h3>Could not get a valid question from the server.</h3>
+    <h3>Try again later</h3>
+</div>
+
+<div [hidden]="question == undefined || question == null">
+    <h2>Theme: {{ getQuestion!.theme }}</h2>
+    <h3>Question number: {{ getQuestion!.id }}</h3>
+    <h3>{{ getQuestion!.question }}</h3>
+</div>
+<div [hidden]="question != null || question == undefined">
+    <h3>Awaiting Question...</h3>
+</div>
