@@ -8,18 +8,26 @@ import { WebsocketService } from "../../service/websocket/websocket.service";
 
 import { AppComponent } from "../../app.component";
 import { Question, QuestionResponse } from "../../service/question/question";
+import { AnswerService } from "src/app/service/answer/answer.service";
+import { AnswerRequest } from "src/app/service/answer/answer";
 
 @Component({
     selector: 'app-question',
     templateUrl: './question.component.html',
-    providers: [QuestionService, ProfileService, WebsocketService],
+    providers: [
+        AnswerService,
+        QuestionService,
+        ProfileService,
+        WebsocketService
+    ],
     styleUrls: []
 })
 export class QuestionComponent implements OnInit {
     question: Question | null | undefined = undefined;
     message: string | null = null;
 
-    constructor(private questionService: QuestionService,
+    constructor(private answerService: AnswerService,
+                private questionService: QuestionService,
                 private profileService: ProfileService,
                 private websocketService: WebsocketService,
                 private router: Router,
@@ -80,6 +88,26 @@ export class QuestionComponent implements OnInit {
             }
         }
         return this.question;
+    }
+
+    answerQuestion(answer: string) {
+        if (this.question == null) {
+            this.snackMessage("There is currently no question.");
+            return;
+        }
+
+        var answerRequest: AnswerRequest = {
+            questionId: this.question.id,
+            answer: answer,
+        }
+        this.answerService.postAnswer(answerRequest).subscribe(rsp => {
+            if (rsp == null)
+                this.snackMessage("Could not get a valid response from server.");
+            else if (rsp.status != "SUCCESS")
+                this.snackMessage(rsp.errorMessage ? rsp.errorMessage : "Could not send answer.");
+            else
+                this.snackMessage("Answer registered.");
+        })
     }
 
     snackMessage(message: string) {
