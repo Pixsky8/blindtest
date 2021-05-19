@@ -1,0 +1,14 @@
+<div [hidden]="getQuestion.id != -2">
+  <h3>Could not get a valid question from the server.</h3>
+  <h3>Try again later</h3>
+</div>
+
+<div [hidden]="getQuestion.id != -1">
+  <h3>Awaiting Question...</h3>
+</div>
+
+<div [hidden]="getQuestion.id < 0">
+  <h2>Theme: {{ getQuestion!.theme }}</h2>
+  <h3>Question number: {{ getQuestion!.id }}</h3>
+  <h3>{{ getQuestion!.question }}</h3>
+</div>

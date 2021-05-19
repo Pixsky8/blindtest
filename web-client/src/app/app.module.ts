@@ -15,17 +15,20 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 // Components
 import { LoginComponent } from './account/login/login.component';
+import { MainModule } from './main/main.module';
+import { ScoreboardComponent } from './main/scoreboard/scoreboard.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        LoginComponent
+        LoginComponent,
     ],
     imports: [
         AppRoutingModule,
         BrowserAnimationsModule,
         BrowserModule,
         HttpClientModule,
+        MainModule,
         MatButtonModule,
         MatIconModule,
         MatSidenavModule,

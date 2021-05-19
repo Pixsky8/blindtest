@@ -2,20 +2,20 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from '@angular/router';
 import { MatSnackBar } from "@angular/material/snack-bar";
 
-import { QuestionService } from "../service/question/question.service"
-import { ProfileService } from "../service/profile/profile.service";
-import { WebsocketService } from "../service/websocket/websocket.service";
+import { QuestionService } from "../../service/question/question.service"
+import { ProfileService } from "../../service/profile/profile.service";
+import { WebsocketService } from "../../service/websocket/websocket.service";
 
-import { AppComponent } from "../app.component";
-import { Question, QuestionResponse } from "../service/question/question";
+import { AppComponent } from "../../app.component";
+import { Question, QuestionResponse } from "../../service/question/question";
 
 @Component({
-    selector: 'app-main',
-    templateUrl: './main.component.html',
+    selector: 'app-question',
+    templateUrl: './question.component.html',
     providers: [QuestionService, ProfileService, WebsocketService],
     styleUrls: []
 })
-export class MainComponent implements OnInit {
+export class QuestionComponent implements OnInit {
     question: Question | null | undefined = undefined;
     message: string | null = null;
 
@@ -70,7 +70,15 @@ export class MainComponent implements OnInit {
         });
     }
 
-    get getQuestion(): Question | null | undefined {
+    get getQuestion(): Question {
+        if (this.question == null || this.question == undefined) {
+            return {
+                id: this.question == null ? -1 : -2,
+                theme: "Waiting...",
+                audio: false,
+                question: ""
+            }
+        }
         return this.question;
     }
 
