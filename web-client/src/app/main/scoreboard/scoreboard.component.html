@@ -1,1 +1,18 @@
-<h3>SCOREBOARD</h3>
+<button (click)="fetchScoreboard()">Refresh Scoreboard</button>
+
+<div *ngIf="scoreboard != null; else noScoreboard">
+  <table class="scoreboard" width="100%">
+    <tr class="header">
+      <th>Name</th>
+      <th>Score</th>
+    </tr>
+    <tr *ngFor="let player of scoreboard.scoreboard | keyvalue">
+      <th>{{ player.key }}</th>
+      <th>{{ player.value }}</th>
+    </tr>
+  </table>
+</div>
+
+<ng-template #noScoreboard>
+  <h3>No scoreboard to display</h3>
+</ng-template>
