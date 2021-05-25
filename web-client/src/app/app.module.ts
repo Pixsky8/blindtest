@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Material
 import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -30,6 +31,7 @@ import { ScoreboardComponent } from './main/scoreboard/scoreboard.component';
         HttpClientModule,
         MainModule,
         MatButtonModule,
+        MatGridListModule,
         MatIconModule,
         MatSidenavModule,
         MatSnackBarModule,

@@ -1,0 +1,14 @@
+.left-center {
+    position: absolute;
+    top: 40%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.right-center {
+    position: absolute;
+    left: 75%;
+    transform: translate(-50%, 0%);
+    text-align: center;
+}

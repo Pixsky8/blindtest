@@ -1,0 +1,15 @@
+table {
+    border-collapse: collapse;
+}
+
+tr.header {
+    width: 100%;
+}
+
+th.name {
+    width: 50%;
+}
+
+th.score {
+    width: 50%;
+}

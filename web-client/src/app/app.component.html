@@ -1,4 +1,4 @@
-<mat-drawer-container class="sidenav-container">
+<mat-drawer-container class="sidenav-container full-width full-height">
   <mat-drawer #drawer class="sidenav" mode="over">
     <div class="sidebar">
       <div *ngIf="getLogin != null; else notLogged">
@@ -13,7 +13,7 @@
   </mat-drawer>
 
 
-  <div class="side-nav-body">
+  <div class="side-nav-body full-width full-height">
     <mat-toolbar color="primary">
       <button mat-icon-button (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
@@ -21,6 +21,8 @@
       <span> {{ title }} </span>
     </mat-toolbar>
 
-    <router-outlet></router-outlet>
+    <div class="main-body">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </mat-drawer-container>

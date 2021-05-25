@@ -10,7 +10,7 @@ import { ScoreboardResponse } from "../../service/scoreboard/scoreboard";
     selector: 'app-scoreboard',
     templateUrl: './scoreboard.component.html',
     providers: [ScoreboardService],
-    styleUrls: []
+    styleUrls: ['./scoreboard.component.css']
 })
 export class ScoreboardComponent implements OnInit {
     scoreboard: ScoreboardResponse | null = null;
@@ -19,7 +19,9 @@ export class ScoreboardComponent implements OnInit {
                 private router: Router,
                 private snackBar: MatSnackBar) {}
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.fetchScoreboard();
+    }
 
     fetchScoreboard() {
         this.scoreboardService.getScoreboard().subscribe(rsp => {

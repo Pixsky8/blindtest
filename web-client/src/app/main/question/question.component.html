@@ -1,24 +1,35 @@
-<div [hidden]="getQuestion.id != -2">
-  <h3>Could not get a valid question from the server.</h3>
-  <h3>Try again later</h3>
-</div>
+<div
+  class="full-height"
+  style="width: 50%; float:left"
+>
+  <div class="left-center">
+    <div [hidden]="getQuestion.id != -2">
+      <h3>Could not get a valid question from the server.</h3>
+      <h3>Try again later</h3>
+    </div>
 
-<div [hidden]="getQuestion.id != -1">
-  <h3>Awaiting Question...</h3>
-</div>
+    <div [hidden]="getQuestion.id != -1">
+      <h3>Awaiting Question...</h3>
+    </div>
 
-<div [hidden]="getQuestion.id < 0">
-  <h2>Theme: {{ getQuestion!.theme }}</h2>
-  <h3>Question number: {{ getQuestion!.id }}</h3>
-  <h3>{{ getQuestion!.question }}</h3>
-  <div>
-    <p>Answer: </p>
-    <input
-      class="string"
-      #answer (keyup.enter)="answerQuestion(answer.value)"
-    >
+    <div [hidden]="getQuestion.id < 0">
+      <h2>Theme: {{ getQuestion!.theme }}</h2>
+      <h3>Question number: {{ getQuestion!.id }}</h3>
+      <h3>{{ getQuestion!.question }}</h3>
+      <div>
+        <p>Answer: </p>
+        <input
+          class="string"
+          #answer (keyup.enter)="answerQuestion(answer.value)"
+        >
+      </div>
+      <button (click)="answerQuestion(answer.value)">Lock answer</button>
+    </div>
   </div>
-  <button (click)="answerQuestion(answer.value)">Lock answer</button>
 </div>
 
-<app-scoreboard></app-scoreboard>
+<div style="width: 50%; float:right">
+  <div class="right-center full-height">
+    <app-scoreboard></app-scoreboard>
+  </div>
+</div>

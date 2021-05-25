@@ -20,7 +20,7 @@ import { AnswerRequest } from "src/app/service/answer/answer";
         ProfileService,
         WebsocketService
     ],
-    styleUrls: []
+    styleUrls: ['./question.component.css']
 })
 export class QuestionComponent implements OnInit {
     question: Question | null | undefined = undefined;

@@ -7,11 +7,25 @@ div.center {
     padding: 10px;
 }
 
+.full-height {
+    height: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
 .middle {
     display: flex;
     justify-content: center; /* center horizontal */
     align-items: center; /* center vertical */
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
