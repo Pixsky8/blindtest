@@ -1,17 +1,21 @@
+import tools.Option
 import tools.json.Discord
 import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
-    val configPath: String =
-        if (args.isEmpty())
-            "config"
-        else
-            args[0]
+    val option = Option(args)
 
-    val discordConfigFile = File("$configPath/discord.json")
+    if (option.help) {
+        println("Usage:")
+        println("\t-h, --help: display this message")
+        println("\t-d, --dry-run: test the config files")
+        return
+    }
+
+    val discordConfigFile = File("${option.configPath}/discord.json")
     if (!discordConfigFile.isFile) {
-        System.err.println("Could not find `$configPath/discord.json'.")
+        System.err.println("Could not find `${option.configPath}/discord.json'.")
         exitProcess(2)
     }
 
@@ -25,5 +29,5 @@ fun main(args: Array<String>) {
         exitProcess(2)
     }
 
-    val api = igniteServer(configPath, discordConfig.token)
+    val api = igniteServer(option, discordConfig.token)
 }

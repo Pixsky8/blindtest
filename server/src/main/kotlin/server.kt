@@ -26,6 +26,7 @@ import service.AccountService
 import service.GameService
 import service.QuestionService
 import service.discord.DiscordService
+import tools.Option
 import tools.cookie.LoginSession
 import java.sql.Connection
 import kotlin.random.Random
@@ -49,7 +50,7 @@ fun setupDatabaseConnection(): Connection? {
     return dataSource.connection
 }
 
-fun igniteServer(configPath: String, discordToken: String): NettyApplicationEngine? {
+fun igniteServer(option: Option, discordToken: String): NettyApplicationEngine? {
     val logger = LoggerFactory.getLogger("Ktor Server")
 
     val connection = setupDatabaseConnection();
@@ -65,7 +66,7 @@ fun igniteServer(configPath: String, discordToken: String): NettyApplicationEngi
     val adminRepository = AdminRepository(dataBase)
     val answerRepository = AnswerRepository()
     val gameRepository = GameRepository()
-    val questionRepository = QuestionsRepository("$configPath/questions.json")
+    val questionRepository = QuestionsRepository("${option.configPath}/questions.json")
 
     val accountService = AccountService(accountRepository, adminRepository)
     val gameService = GameService(gameRepository, gameConnections)

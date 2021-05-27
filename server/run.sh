@@ -1,3 +1,3 @@
 #! /bin/bash
 
-mvn exec:java -Dexec.args="$*"
+mvn -q exec:java -Dexec.args="$*"
