@@ -49,7 +49,7 @@ fun setupDatabaseConnection(): Connection? {
     return dataSource.connection
 }
 
-fun igniteServer(discordToken: String): NettyApplicationEngine? {
+fun igniteServer(configPath: String, discordToken: String): NettyApplicationEngine? {
     val logger = LoggerFactory.getLogger("Ktor Server")
 
     val connection = setupDatabaseConnection();
@@ -65,7 +65,7 @@ fun igniteServer(discordToken: String): NettyApplicationEngine? {
     val adminRepository = AdminRepository(dataBase)
     val answerRepository = AnswerRepository()
     val gameRepository = GameRepository()
-    val questionRepository = QuestionsRepository("config/questions.json")
+    val questionRepository = QuestionsRepository("$configPath/questions.json")
 
     val accountService = AccountService(accountRepository, adminRepository)
     val gameService = GameService(gameRepository, gameConnections)
