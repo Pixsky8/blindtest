@@ -10,6 +10,7 @@ fun main(args: Array<String>) {
         println("Usage:")
         println("\t-h, --help: display this message")
         println("\t-d, --dry-run: test the config files")
+        println("\t--debug: display debug logs")
         return
     }
 
