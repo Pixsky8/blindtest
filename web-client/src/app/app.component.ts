@@ -13,6 +13,7 @@ import { LoginService } from './service/login/login.service';
 export class AppComponent {
     title = 'Blindtest';
     static login: string | null = null;
+    static theme: string = "light-theme";
 
     constructor(private loginService: LoginService,
                 private router: Router,

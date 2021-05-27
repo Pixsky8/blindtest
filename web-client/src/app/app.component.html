@@ -1,9 +1,11 @@
 <mat-drawer-container class="sidenav-container full-width full-height">
   <mat-drawer #drawer class="sidenav" mode="over">
+
     <div class="sidebar">
+      <app-theme class="middle"></app-theme>
       <div *ngIf="getLogin != null; else notLogged">
         <h3>Logged as {{ getLogin }}</h3>
-        <button (click)="logout()">Logout</button>
+        <button mat-raised-button color="accent" (click)="logout()">Logout</button>
       </div>
 
       <ng-template #notLogged>

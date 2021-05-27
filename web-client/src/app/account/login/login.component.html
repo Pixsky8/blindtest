@@ -17,13 +17,13 @@
   </div>
 
   <div class="middle" style="margin-top: 15px">
-    <button (click)="login(loginUser.value, loginPasswd.value)">Login</button>
+    <button mat-raised-button color="primary" (click)="login(loginUser.value, loginPasswd.value)">Login</button>
   </div>
 
   <div style="margin-top: 35px">
     <h3 class="middle">No account? Sign up!</h3>
     <div class="middle">
-      <button (click)="createAccountRedirect()">Sign Up</button>
+      <button mat-raised-button color="accent" (click)="createAccountRedirect()">Sign Up</button>
     </div>
   </div>
 </div>

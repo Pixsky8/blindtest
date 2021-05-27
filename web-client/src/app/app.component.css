@@ -3,13 +3,20 @@ mat-drawer-container {
     width: 100%;
 }
 
+mat-sidenav {
+    white-space: nowrap;
+    display: flex;
+}
+
 mat-drawer.sidenav {
+    white-space: nowrap;
     width: 25%;
 }
 
 div.sidebar {
-    margin: 5%;
-    width: 100%;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 95%;
 }
 
 div.side-nav-body {
