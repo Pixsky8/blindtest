@@ -1,0 +1,10 @@
+.idea/
+config/
+target/
+
+.gitignore
+Dockerfile
+
+*.md
+*.db
+*.iml
