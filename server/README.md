@@ -10,5 +10,4 @@ Compile the server using `compile.sh`.
 
 Start the server using `run.sh`.
 
-You can change the config folder path with the 1st parameter:\
-`run.sh path/to/config/folder`
+`run.sh` can use options. Use `run.sh --help` to list them.
