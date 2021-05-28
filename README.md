@@ -29,3 +29,9 @@ the [web-client](web-client/README.md) and the [server](server/README.md).
 
 [`run.sh`](run.sh) will start the dockers and link them if you used
 the automatic setup.
+
+## Updating
+
+[`update.sh`](update.sh) will update the dockers and the web client.
+
+/!\ Only use this if you used the automatic setup.
