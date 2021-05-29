@@ -11,13 +11,20 @@ export class ThemeComponent implements OnInit {
     private static readonly dark_path = 'dark-theme';
     private static readonly dark_name = 'dark';
 
-    public theme: string;
+    public theme: string = ThemeComponent.dark_name;
 
     constructor(@Inject(DOCUMENT) private document: Document) {
-        this.theme =
-            this.document.documentElement.classList.contains(ThemeComponent.dark_path)
-                ? ThemeComponent.dark_name
-                : ThemeComponent.light_name;
+        const light_theme_user =
+            window.matchMedia("(prefers-color-scheme: light)").matches;
+
+        if (!light_theme_user) {
+            this.theme = ThemeComponent.dark_name;
+            this.selectDarkTheme();
+        }
+        else {
+            this.theme = ThemeComponent.light_name;
+            this.selectLightTheme();
+        }
     }
 
     ngOnInit(): void { }
