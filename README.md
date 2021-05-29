@@ -20,10 +20,20 @@ Running the [`setup.sh`](setup.sh) does everything for you.
 It will create 2 dockers, one with an nginx server and the other
 with the game's backend.
 
+#### Dependencies
+
+- Docker
+- npm
+
 ### Custom
 
 If you have a custom web server configuration, you have to compile
 the [web-client](web-client/README.md) and the [server](server/README.md).
+
+#### Dependencies
+
+- maven
+- npm
 
 ## Running
 
