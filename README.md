@@ -40,6 +40,13 @@ the [web-client](web-client/README.md) and the [server](server/README.md).
 [`run.sh`](run.sh) will start the dockers and link them if you used
 the automatic setup.
 
+### Mounting a folder for the music
+
+You can also give a path to the script. If you do so, it will be mounted on
+/data of the docker.
+
+It is useful if you want to use your own music.
+
 ## Updating
 
 [`update.sh`](update.sh) will update the dockers and the web client.
