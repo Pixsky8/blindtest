@@ -11,5 +11,5 @@ docker build -t blindtest_server server
 ### ANGULAR SETUP ###
 cd web-client
 npm install
-ng build
+ng build --prod --aot --build-optimizer
 cd -
