@@ -1,0 +1,609 @@
+_type: export
+__export_format: 4
+__export_date: 2021-05-30T19:46:06.084Z
+__export_source: insomnia.desktop.app:v2021.3.0
+resources:
+  - _id: req_415cbebd6aac4e289e143c46cc8dc379
+    parentId: fld_f0c30959ef7d45a0883d86c1e4c1b29d
+    modified: 1622238835498
+    created: 1621265200459
+    url: localhost/api/answer
+    name: Answer question
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"questionId": 0,
+        	"answer": "Oui"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_f177ad138e564899818bb0997dd03f49
+    authentication: {}
+    metaSortKey: -1621265200459
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_f0c30959ef7d45a0883d86c1e4c1b29d
+    parentId: wrk_6d22ba45025e48bdaa460a6d7c9b8eb8
+    modified: 1621265069790
+    created: 1621265069790
+    name: Answer
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1621265069790
+    _type: request_group
+  - _id: wrk_6d22ba45025e48bdaa460a6d7c9b8eb8
+    parentId: null
+    modified: 1619976462988
+    created: 1619976400424
+    name: blindtest-server-test
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_b2bc1b7cf29a4da4a3b8ec5403f2c93c
+    parentId: fld_f0c30959ef7d45a0883d86c1e4c1b29d
+    modified: 1622238839720
+    created: 1621265090172
+    url: localhost/api/answer
+    name: Answers (admin)
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1621265090172
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_3df592e8f04c4f3e8720194cb952d408
+    parentId: fld_2bdf45405fda44a6a46f776503a88780
+    modified: 1622240429747
+    created: 1621266190344
+    url: localhost/api/scoreboard
+    name: Scoreboard (admin)
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"username": "admin",
+        	"points": 10
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_214d38f86ca44439958b948992bafbcf
+    authentication: {}
+    metaSortKey: -1621266190345
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_2bdf45405fda44a6a46f776503a88780
+    parentId: wrk_6d22ba45025e48bdaa460a6d7c9b8eb8
+    modified: 1621265064874
+    created: 1621265005924
+    name: Scoreboard
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1621265005924
+    _type: request_group
+  - _id: req_ee81b755410446ecabfa5aa47f6a8e51
+    parentId: fld_2bdf45405fda44a6a46f776503a88780
+    modified: 1622238849167
+    created: 1621265021605
+    url: localhost/api/scoreboard
+    name: Scoreboard
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1621265021605
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_4371fd58c1bb42fcb9836a5784a06e5d
+    parentId: fld_e386a81ec43c4d52b93b496b8d7bef3c
+    modified: 1622238853335
+    created: 1620590301684
+    url: localhost/api/question
+    name: Current question (-1)
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620590301684
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_e386a81ec43c4d52b93b496b8d7bef3c
+    parentId: wrk_6d22ba45025e48bdaa460a6d7c9b8eb8
+    modified: 1620590288538
+    created: 1620590288538
+    name: Question
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1620590288538
+    _type: request_group
+  - _id: req_d99c06b8537140c8a2abd722d38e3cd0
+    parentId: fld_e386a81ec43c4d52b93b496b8d7bef3c
+    modified: 1622238857247
+    created: 1620590463689
+    url: localhost/api/question
+    name: Change Question
+    description: ""
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"id": 0
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_7c3bfaa993b94d1bba696b4b4df00a90
+    authentication: {}
+    metaSortKey: -1620590301634
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_499ef8692eb34998a0eba64dc5d59d38
+    parentId: fld_e386a81ec43c4d52b93b496b8d7bef3c
+    modified: 1622238860707
+    created: 1620590523871
+    url: localhost/api/question
+    name: Current question (0)
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620590301584
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_934e41b927ee45a7b43d545b8be3e1c3
+    parentId: fld_e386a81ec43c4d52b93b496b8d7bef3c
+    modified: 1622238864031
+    created: 1620590732703
+    url: localhost/api/question
+    name: Next Question
+    description: ""
+    method: PUT
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620590301534
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_296af30cac584e0fa4a6c30a17e82fa5
+    parentId: fld_e386a81ec43c4d52b93b496b8d7bef3c
+    modified: 1622238867909
+    created: 1620590745167
+    url: localhost/api/question
+    name: Current question (1)
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620590301484
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_dcb516c4d3a041589735c73127056b12
+    parentId: fld_5ff8c691736e475aa4becf201eaaac23
+    modified: 1622238871687
+    created: 1619993263713
+    url: http://localhost/api/account/list
+    name: List Accounts (DEBUG)
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620230112403.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_5ff8c691736e475aa4becf201eaaac23
+    parentId: wrk_6d22ba45025e48bdaa460a6d7c9b8eb8
+    modified: 1620467439843
+    created: 1620467439843
+    name: Account
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1620467439843
+    _type: request_group
+  - _id: req_dea92536c11c42af99f86ea80de2957c
+    parentId: fld_5ff8c691736e475aa4becf201eaaac23
+    modified: 1622238875300
+    created: 1620476355950
+    url: http://localhost/api/account
+    name: Create Account Fail login len
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"login": "",
+        	"password": "passwd"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_3075798130b445a8a578aadeda4b3cd2
+    authentication: {}
+    metaSortKey: -1620230112378.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_fa5c675b26c841de8af2489cd2b3c7d5
+    parentId: fld_5ff8c691736e475aa4becf201eaaac23
+    modified: 1622238879656
+    created: 1619990112944
+    url: http://localhost/api/account
+    name: Create Account
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"login": "user",
+        	"password": "passwd"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_2e7667790ed24d29bfe53291b49bcefc
+    authentication: {}
+    metaSortKey: -1620230112353.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_7260b7c5affb444e9f2746ad51d77643
+    parentId: fld_5ff8c691736e475aa4becf201eaaac23
+    modified: 1622238883195
+    created: 1620044706356
+    url: http://localhost/api/profile
+    name: Profile no Token
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620230112352.7188
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_5830801bccea4a968ad712c95b874b99
+    parentId: fld_5ff8c691736e475aa4becf201eaaac23
+    modified: 1622238886633
+    created: 1619992305764
+    url: http://localhost/api/login
+    name: Login wrong login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"login": "doesnotexist",
+        	"password": "passwd"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_7721c9ede21c480084800e09401c9d69
+    authentication: {}
+    metaSortKey: -1620230112352.3281
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_47066656d7c2437db6974ded4754b3c3
+    parentId: fld_5ff8c691736e475aa4becf201eaaac23
+    modified: 1622238890223
+    created: 1619992272050
+    url: http://localhost/api/login
+    name: Login Wrong Passwd
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"login": "user",
+        	"password": "wrong password"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_4598d69790c94efaa1106da15ece9a61
+    authentication: {}
+    metaSortKey: -1620230112352.1328
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_1ddbfdda42cd406fa8710e35620fff34
+    parentId: fld_5ff8c691736e475aa4becf201eaaac23
+    modified: 1622238893732
+    created: 1619991626134
+    url: http://localhost/api/login
+    name: Login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"login": "user",
+        	"password": "passwd"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_8487d168f49d41e7a282c800f36590ce
+    authentication: {}
+    metaSortKey: -1620230112351.9375
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_bcf72889f0e447b1a6f773c9d1e80da0
+    parentId: fld_5ff8c691736e475aa4becf201eaaac23
+    modified: 1622238897229
+    created: 1620042285992
+    url: http://localhost/api/profile
+    name: Profile
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620230112341
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_93d5d98c84ab4f9dbdf3134f5f56e4d1
+    parentId: fld_5ff8c691736e475aa4becf201eaaac23
+    modified: 1622238901052
+    created: 1620467340828
+    url: http://localhost/api/login
+    name: Logout
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620230112328.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_66bcbde81c334c3b8ae1e5c9b54ea6d1
+    parentId: fld_5ff8c691736e475aa4becf201eaaac23
+    modified: 1622238906040
+    created: 1620467363962
+    url: http://localhost/api/profile
+    name: Profile after logout
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620230112303.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_50ae490389c04e5184db93db967c7d20
+    parentId: fld_5ff8c691736e475aa4becf201eaaac23
+    modified: 1622238909815
+    created: 1620857271187
+    url: http://localhost/api/account
+    name: Create Admin Account (DEBUG)
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"login": "admin",
+        	"password": "minad"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_19d9c0ebabae4945bce5da3419d55102
+    authentication: {}
+    metaSortKey: -1620230112253.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_df0cebb1e392437097f77644c838c233
+    parentId: fld_5ff8c691736e475aa4becf201eaaac23
+    modified: 1622238913403
+    created: 1620857324331
+    url: http://localhost/api/login
+    name: Login Admin
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"login": "admin",
+        	"password": "minad"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_639c1dbc4c3649f58a6d97dcddd4a6b0
+    authentication: {}
+    metaSortKey: -1620230112203.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_44de8df694191957560603da1c6840f417708f09
+    parentId: wrk_6d22ba45025e48bdaa460a6d7c9b8eb8
+    modified: 1619976400479
+    created: 1619976400479
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1619976400479
+    _type: environment
+  - _id: jar_44de8df694191957560603da1c6840f417708f09
+    parentId: wrk_6d22ba45025e48bdaa460a6d7c9b8eb8
+    modified: 1622403842210
+    created: 1619976400480
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_32b267068d234567bd6eadd6128a74fc
+    parentId: wrk_6d22ba45025e48bdaa460a6d7c9b8eb8
+    modified: 1619976400427
+    created: 1619976400427
+    fileName: server-test
+    contents: ""
+    contentType: yaml
+    _type: api_spec
