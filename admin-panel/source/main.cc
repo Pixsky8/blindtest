@@ -1,11 +1,16 @@
 #include <QApplication>
 #include <QPushButton>
+#include <qmainwindow.h>
+
+#include "interface/window.hh"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    QPushButton button("Test.");
-    button.show();
+    QMainWindow *main_window = interface::create_window();
+    main_window->show();
 
-    return app.exec();
+    int res = app.exec();
+    delete main_window;
+    return res;
 }
