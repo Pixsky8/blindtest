@@ -11,7 +11,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra ${CUSTOM_FLAGS}")
 
 # SOURCES
 set(SRC
+  "source/interface/login.cc"
   "source/interface/window.cc"
+  "source/network/request.cc"
 )
 
 include_directories("include")
@@ -26,4 +28,4 @@ set(LIBRARIES
 
 add_executable(admin-panel)
 target_sources(admin-panel PRIVATE "source/main.cc" ${SRC})
-target_link_libraries(admin-panel PRIVATE ${LIBRARIES})
+target_link_libraries(admin-panel PRIVATE ${LIBRARIES} "-lcurl")
