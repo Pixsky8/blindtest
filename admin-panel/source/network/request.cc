@@ -94,7 +94,7 @@ namespace network {
         }
 
         res.set_body(std::string("{\"login\": \"") + username +
-                       "\",\"password\":\"" + passwd + "\"}");
+                     "\",\"password\":\"" + passwd + "\"}");
         res.set_json_type();
         res.set_method("POST");
 

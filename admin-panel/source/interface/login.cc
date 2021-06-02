@@ -1,22 +1,27 @@
 #include <QLabel>
 #include <QLineEdit>
+#include <QMessageBox>
 #include <QPushButton>
+#include <QString>
 #include <QVBoxLayout>
 #include <QWidget>
 
 #include <iostream>
 
+#include "config.hh"
 #include "network/request.hh"
 
 namespace interface {
     void send_login(QLineEdit *username_input, QLineEdit *password_input) {
         auto request =
-            network::login_request("http://localhost",
-                                   "/tmp/cookie.txt",
+            network::login_request(g_config.host_name,
+                                   g_config.cookie_file,
                                    username_input->text().toStdString(),
                                    password_input->text().toStdString());
 
-        std::cout << request.perform() << std::endl;
+        QMessageBox response;
+        response.setText(QString::fromUtf8(request.perform().c_str()));
+        response.exec();
     }
 
     QWidget *create_login_page() {
