@@ -9,8 +9,8 @@ class Config {
         , cookie_file(cookie_file_) {
     }
 
-    const std::string host_name;
-    const std::string cookie_file;
+    std::string host_name;
+    std::string cookie_file;
 };
 
 extern Config g_config;
