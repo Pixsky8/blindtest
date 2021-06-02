@@ -6,10 +6,17 @@
 
 #include <iostream>
 
+#include "network/request.hh"
+
 namespace interface {
     void send_login(QLineEdit *username_input, QLineEdit *password_input) {
-        std::cout << username_input->text().toStdString() << std::endl;
-        std::cout << password_input->text().toStdString() << std::endl;
+        auto request =
+            network::login_request("http://localhost",
+                                   "/tmp/cookie.txt",
+                                   username_input->text().toStdString(),
+                                   password_input->text().toStdString());
+
+        std::cout << request.perform() << std::endl;
     }
 
     QWidget *create_login_page() {
