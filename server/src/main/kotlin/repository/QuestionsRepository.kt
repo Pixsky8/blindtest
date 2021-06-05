@@ -12,20 +12,39 @@ class QuestionsRepository {
         val objectMapper = ObjectMapper()
         val questionsFile = File(pathToQuestions)
         questionsList = objectMapper.readValue(questionsFile, QuestionListModel::class.java)
+        checkQuestionList()
+    }
+
+    private fun checkQuestionList() {
         for (question in questionsList.questions) {
             if (question.id == null)
                 throw IllegalArgumentException("Json file is not valid, id is missing for a question.")
-            if (question.audio == null || question.theme == null)
+
+            if (question.question == null || question.theme == null) {
                 throw IllegalArgumentException(
-                    "Json file is not valid, audio and/or theme filed are missing from question "
+                    "Json file is not valid, theme and/or question field are missing from question " + question.id
+                )
+            }
+
+            if (question.audio == null) {
+                throw IllegalArgumentException(
+                    "Json file is not valid, audio field is missing from question " + question.id
+                )
+            }
+
+            if (question.audio!! && question.audioFile == null) {
+                throw IllegalArgumentException(
+                    "Json file is not valid, audio field is set to true but audioFile field are missing from question "
                             + question.id
                 )
+            }
         }
     }
 
     fun setQuestionList(pathToQuestions: String) {
         val objectMapper = ObjectMapper()
         questionsList = objectMapper.readValue(pathToQuestions, QuestionListModel::class.java)
+        checkQuestionList()
     }
 
     fun getQuestion(id: Int): QuestionModel? {
