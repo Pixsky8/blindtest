@@ -34,4 +34,7 @@ namespace network {
                           const std::string &cookie_path,
                           const std::string &username,
                           const std::string &passwd);
+
+    Request answer_request(const std::string &hostname,
+                           const std::string &cookie_path);
 } // namespace network

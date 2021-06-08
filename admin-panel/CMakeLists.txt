@@ -12,6 +12,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra ${CUSTOM_FLAGS}")
 # SOURCES
 set(SRC
   "source/config.cc"
+  "source/interface/answer.cc"
+  "source/interface/config.cc"
   "source/interface/login.cc"
   "source/interface/window.cc"
   "source/network/request.cc"

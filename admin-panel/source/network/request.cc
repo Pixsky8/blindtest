@@ -100,4 +100,14 @@ namespace network {
 
         return res;
     }
+
+    Request answer_request(const std::string &hostname,
+                           const std::string &cookie_path) {
+        std::string host = hostname + "/api/answer";
+        Request res(host, cookie_path);
+
+        res.set_method("GET");
+
+        return res;
+    }
 } // namespace network
