@@ -5,7 +5,7 @@
 
 namespace network {
     class Request {
-      private:
+    private:
         std::string url;
         std::string method;
         std::string cookie_path;
@@ -14,7 +14,7 @@ namespace network {
 
         int response_code = -1;
 
-      public:
+    public:
         Request(const std::string &url, const std::string &cookie_jar);
 
         ~Request();

@@ -1,7 +1,7 @@
 #include "interface/answer.hh"
 
-#include <QTextEdit>
 #include <QPushButton>
+#include <QTextEdit>
 #include <QVBoxLayout>
 #include <QWidget>
 

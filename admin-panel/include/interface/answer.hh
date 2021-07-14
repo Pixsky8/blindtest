@@ -4,10 +4,10 @@
 #include <string>
 
 namespace interface {
-    class AnswerWidget: public QWidget {
+    class AnswerWidget : public QWidget {
     public:
         AnswerWidget();
 
         std::string leaderboard;
     };
-}
+} // namespace interface

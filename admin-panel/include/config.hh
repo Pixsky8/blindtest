@@ -3,7 +3,7 @@
 #include <string>
 
 class Config {
-  public:
+public:
     Config(const std::string &host_name_, const std::string &cookie_file_)
         : host_name(host_name_)
         , cookie_file(cookie_file_) {
