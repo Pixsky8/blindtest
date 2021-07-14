@@ -27,11 +27,20 @@ namespace interface {
     QWidget *create_login_page() {
         auto login_page = new QWidget;
 
+        auto username_layout = new QVBoxLayout;
         auto username_lbl = new QLabel("Username:");
-        auto password_lbl = new QLabel("Password:");
         auto username_input = new QLineEdit;
+        username_layout->addWidget(username_lbl);
+        username_layout->addWidget(username_input);
+        username_layout->setContentsMargins(QMargins(0, 0, 0, 15));
+
+        auto password_layout = new QVBoxLayout;
+        auto password_lbl = new QLabel("Password:");
         auto password_input = new QLineEdit;
         password_input->setEchoMode(QLineEdit::Password);
+        password_layout->addWidget(password_lbl);
+        password_layout->addWidget(password_input);
+        password_layout->setContentsMargins(QMargins(0, 0, 0, 15));
 
         auto login_button = new QPushButton("Login");
         QObject::connect(login_button, &QPushButton::released, [=]() {
@@ -39,10 +48,8 @@ namespace interface {
         });
 
         QVBoxLayout *login_layout = new QVBoxLayout;
-        login_layout->addWidget(username_lbl);
-        login_layout->addWidget(username_input);
-        login_layout->addWidget(password_lbl);
-        login_layout->addWidget(password_input);
+        login_layout->addLayout(username_layout);
+        login_layout->addLayout(password_layout);
         login_layout->addWidget(login_button);
         login_layout->addStretch(1);
 

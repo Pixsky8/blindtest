@@ -19,7 +19,7 @@ set(SRC
   "source/network/request.cc"
 )
 
-include_directories("include")
+include_directories("include" "external")
 # ! SOURCES
 
 # LIBRARIES

@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QTabWidget>
+#include <QTextEdit>
 #include <QVBoxLayout>
 #include <memory>
 
@@ -15,7 +16,9 @@ namespace interface {
         auto window = new QMainWindow;
         window->setWindowTitle("Admin Panel");
 
-        auto tabs = new QTabWidget;
+        auto tabs = new QTabWidget();
+        tabs->setSizePolicy(QSizePolicy::MinimumExpanding,
+                            QSizePolicy::MinimumExpanding);
 
         auto anwsers_page = new AnswerWidget;
         auto login_page = create_login_page();
@@ -24,7 +27,7 @@ namespace interface {
         tabs->addTab(create_option_page(), "Option");
         tabs->setCurrentIndex(1);
 
-        window->setMenuWidget(tabs);
+        window->setCentralWidget(tabs);
 
         return window;
     }

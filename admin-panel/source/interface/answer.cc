@@ -6,19 +6,25 @@
 #include <QWidget>
 
 #include "config.hh"
+#include "json.hpp"
 #include "network/request.hh"
+
+using nlohmann::json;
 
 namespace interface {
     AnswerWidget::AnswerWidget() {
         auto answers_label = new QTextEdit("");
         answers_label->setReadOnly(true);
+        answers_label->setSizePolicy(QSizePolicy::Expanding,
+                                     QSizePolicy::Expanding);
 
         auto update_button = new QPushButton("Update");
         QObject::connect(update_button, &QPushButton::released, [=]() {
             auto request = network::answer_request(g_config.host_name,
                                                    g_config.cookie_file);
             this->leaderboard = request.perform();
-            answers_label->setText(this->leaderboard.c_str());
+            std::string pretty = json::parse(this->leaderboard).dump(2);
+            answers_label->setText(pretty.c_str());
         });
 
         QVBoxLayout *answers_layout = new QVBoxLayout;
