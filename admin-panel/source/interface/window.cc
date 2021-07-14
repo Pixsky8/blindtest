@@ -17,7 +17,7 @@ namespace interface {
 
         auto tabs = new QTabWidget;
 
-        auto anwsers_page = create_answers_page();
+        auto anwsers_page = new AnswerWidget;
         auto login_page = create_login_page();
         tabs->addTab(anwsers_page, "Anwsers");
         tabs->addTab(login_page, "Login");

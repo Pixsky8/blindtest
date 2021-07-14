@@ -1,7 +1,13 @@
 #pragma once
 
 #include <QWidget>
+#include <string>
 
 namespace interface {
-    QWidget *create_answers_page();
+    class AnswerWidget: public QWidget {
+    public:
+        AnswerWidget();
+
+        std::string leaderboard;
+    };
 }
