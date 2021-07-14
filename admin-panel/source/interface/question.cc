@@ -12,8 +12,6 @@
 #include "config.hh"
 #include "network/request.hh"
 
-#include <iostream>
-
 using nlohmann::json;
 
 namespace interface {
@@ -31,19 +29,25 @@ namespace interface {
         if (res.empty())
             return false;
 
-        json res_json = json::parse(res);
+        try {
+            json res_json = json::parse(res);
 
-        auto succ = res_json.find("status");
-        if (succ == res_json.end())
+            auto succ = res_json.find("status");
+            if (succ == res_json.end())
+                return false;
+
+            return *succ == "SUCCESS";
+        }
+        catch (const std::exception &e) {
             return false;
-
-        return *succ == "SUCCESS";
+        }
     }
 
     QuestionWidget::QuestionWidget() {
         auto layout = new QVBoxLayout;
 
         question_number_lbl = new QLCDNumber;
+        // TODO: get current question from the server
         question_number_lbl->display(this->question_id);
         question_number_lbl->setMinimumHeight(100);
         layout->addWidget(question_number_lbl);

@@ -27,6 +27,8 @@ namespace interface {
         tabs->addTab(new QuestionWidget, "Question");
         tabs->addTab(login_page, "Login");
         tabs->addTab(create_option_page(), "Option");
+
+        // TODO: If already logged in, goto 0 or 1
         tabs->setCurrentIndex(2);
 
         window->setCentralWidget(tabs);

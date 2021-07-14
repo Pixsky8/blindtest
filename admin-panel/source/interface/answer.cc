@@ -4,6 +4,7 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <exception>
 
 #include "config.hh"
 #include "json.hpp"
@@ -23,8 +24,16 @@ namespace interface {
             auto request = network::answer_request(g_config.host_name,
                                                    g_config.cookie_file);
             this->leaderboard = request.perform();
-            std::string pretty = json::parse(this->leaderboard).dump(2);
-            answers_label->setText(pretty.c_str());
+            try {
+                std::string pretty = json::parse(this->leaderboard).dump(2);
+                answers_label->setText(pretty.c_str());
+            }
+            catch (const nlohmann::detail::parse_error &e) {
+                answers_label->setText(e.what());
+            }
+            catch (const std::exception &e) {
+                answers_label->setText(e.what());
+            }
         });
 
         QVBoxLayout *answers_layout = new QVBoxLayout;
