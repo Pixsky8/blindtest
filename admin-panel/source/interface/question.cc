@@ -11,14 +11,21 @@
 #include "network/request.hh"
 
 namespace interface {
-    void QuestionWidget::change_question_request() {
+    bool QuestionWidget::change_question_request() {
         auto request = network::question_request(g_config.host_name,
                                                  g_config.cookie_file,
                                                  this->question_id);
 
+        auto res = request.perform();
+
         QMessageBox response;
-        response.setText(QString::fromUtf8(request.perform().c_str()));
+        response.setText(QString::fromUtf8(res.c_str()));
         response.exec();
+
+        if (res.empty)
+            return false;
+
+        return true;
     }
 
     QuestionWidget::QuestionWidget() {
@@ -29,12 +36,24 @@ namespace interface {
         question_number_lbl->setMinimumHeight(100);
         layout->addWidget(question_number_lbl);
 
-        auto buttons_layout = new QHBoxLayout;
         auto prev_button = new QPushButton("Previous Question");
-        // TODO: add listener
-        buttons_layout->addWidget(prev_button);
+        QObject::connect(prev_button, &QPushButton::released, [=]() {
+            this->question_id--;
+            if (!this->change_question_request())
+                this->question_id++;
+            this->update_question_id();
+        });
+
         auto next_button = new QPushButton("Next Question");
-        // TODO: add listener
+        QObject::connect(next_button, &QPushButton::released, [=]() {
+            this->question_id++;
+            if (!this->change_question_request())
+                this->question_id--;
+            this->update_question_id();
+        });
+
+        auto buttons_layout = new QHBoxLayout;
+        buttons_layout->addWidget(prev_button);
         buttons_layout->addWidget(next_button);
         layout->addLayout(buttons_layout);
 
@@ -47,8 +66,10 @@ namespace interface {
 
         auto update_button = new QPushButton("Set Question");
         QObject::connect(update_button, &QPushButton::released, [=]() {
+            int old = this->question_id;
             this->question_id = spinner->value();
-            this->change_question_request();
+            if (!this->change_question_request())
+                this->question_id = old;
             this->update_question_id();
         });
         layout->addWidget(update_button);
