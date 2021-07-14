@@ -7,8 +7,14 @@
 #include <QSpinBox>
 #include <QVBoxLayout>
 
+#include "json.hpp"
+
 #include "config.hh"
 #include "network/request.hh"
+
+#include <iostream>
+
+using nlohmann::json;
 
 namespace interface {
     bool QuestionWidget::change_question_request() {
@@ -22,10 +28,16 @@ namespace interface {
         response.setText(QString::fromUtf8(res.c_str()));
         response.exec();
 
-        if (res.empty)
+        if (res.empty())
             return false;
 
-        return true;
+        json res_json = json::parse(res);
+
+        auto succ = res_json.find("status");
+        if (succ == res_json.end())
+            return false;
+
+        return *succ == "SUCCESS";
     }
 
     QuestionWidget::QuestionWidget() {
