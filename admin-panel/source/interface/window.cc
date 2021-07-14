@@ -10,6 +10,7 @@
 #include "interface/answer.hh"
 #include "interface/config.hh"
 #include "interface/login.hh"
+#include "interface/question.hh"
 
 namespace interface {
     QMainWindow *create_window() {
@@ -23,9 +24,10 @@ namespace interface {
         auto anwsers_page = new AnswerWidget;
         auto login_page = create_login_page();
         tabs->addTab(anwsers_page, "Anwsers");
+        tabs->addTab(new QuestionWidget, "Question");
         tabs->addTab(login_page, "Login");
         tabs->addTab(create_option_page(), "Option");
-        tabs->setCurrentIndex(1);
+        tabs->setCurrentIndex(2);
 
         window->setCentralWidget(tabs);
 
