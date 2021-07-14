@@ -12,5 +12,6 @@ namespace interface {
     public:
         QuestionWidget();
         void update_question_id();
+        void change_question_request();
     };
 } // namespace interface

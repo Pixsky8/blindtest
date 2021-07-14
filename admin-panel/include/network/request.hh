@@ -37,4 +37,8 @@ namespace network {
 
     Request answer_request(const std::string &hostname,
                            const std::string &cookie_path);
+
+    Request question_request(const std::string &hostname,
+                             const std::string &cookie_path,
+                             int question_id);
 } // namespace network

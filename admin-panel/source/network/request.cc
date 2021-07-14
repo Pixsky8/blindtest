@@ -110,4 +110,18 @@ namespace network {
 
         return res;
     }
+
+    Request question_request(const std::string &hostname,
+                             const std::string &cookie_path,
+                             int question_id) {
+        std::string host = hostname + "/api/question";
+        Request res(host, cookie_path);
+
+        res.set_body(std::string("{\"id\":\"") + std::to_string(question_id) +
+                     "\"}");
+        res.set_json_type();
+        res.set_method("PATCH");
+
+        return res;
+    }
 } // namespace network
