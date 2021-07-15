@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QSpinBox>
 #include <QVBoxLayout>
+#include <limits>
 
 #include "json.hpp"
 
@@ -77,7 +78,7 @@ namespace interface {
         layout->addWidget(setter_lbl);
 
         auto spinner = new QSpinBox;
-        spinner->setMaximum(INT32_MAX);
+        spinner->setMaximum(std::numeric_limits<int>::max());
         layout->addWidget(spinner);
 
         auto update_button = new QPushButton("Set Question");
