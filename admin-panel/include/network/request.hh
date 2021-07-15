@@ -41,4 +41,12 @@ namespace network {
     Request question_request(const std::string &hostname,
                              const std::string &cookie_path,
                              int question_id);
+
+    Request profile_get_request(const std::string &hostname,
+                                const std::string &cookie_path);
+
+    Request give_points_request(const std::string &hostname,
+                                const std::string &cookie_path,
+                                const std::string &player_name,
+                                int points);
 } // namespace network

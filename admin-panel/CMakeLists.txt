@@ -16,6 +16,7 @@ set(SRC
   "source/interface/config.cc"
   "source/interface/login.cc"
   "source/interface/question.cc"
+  "source/interface/score.cc"
   "source/interface/window.cc"
   "source/network/request.cc"
 )
