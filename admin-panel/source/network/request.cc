@@ -5,6 +5,10 @@
 #include <stdexcept>
 #include <string>
 
+#include "json.hpp"
+
+using nlohmann::json;
+
 namespace network {
     static size_t
     WriteCallback(char *contents, size_t size, size_t nmemb, void *userp) {
@@ -101,6 +105,16 @@ namespace network {
         return res;
     }
 
+    Request profile_get_request(const std::string &hostname,
+                                const std::string &cookie_path) {
+        std::string host = hostname + "/api/profile";
+        Request res(host, cookie_path);
+
+        res.set_method("GET");
+
+        return res;
+    }
+
     Request answer_request(const std::string &hostname,
                            const std::string &cookie_path) {
         std::string host = hostname + "/api/answer";
@@ -121,6 +135,24 @@ namespace network {
                      "\"}");
         res.set_json_type();
         res.set_method("PATCH");
+
+        return res;
+    }
+
+    Request give_points_request(const std::string &hostname,
+                                const std::string &cookie_path,
+                                const std::string &player_name,
+                                int points) {
+        std::string host = hostname + "/api/scoreboard";
+        Request res(host, cookie_path);
+
+        json body;
+        body["username"] = player_name;
+        body["points"] = points;
+
+        res.set_body(body.dump());
+        res.set_json_type();
+        res.set_method("PUT");
 
         return res;
     }
