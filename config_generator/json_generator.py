@@ -99,29 +99,71 @@ def download_file(link: str, base_path: str) -> str:
 
     new_path = base_path + "/" + Path(file_name).name
 
-    #subprocess.Popen(["mv", file_name, new_path])
+    subprocess.Popen(["mv", file_name, new_path])
 
     return new_path
 
 
+def parse_input_bool() -> bool:
+    inp = input()
+    if inp == "":
+        return True
+    if inp.startswith('y') or inp.startswith('Y'):
+        return True
+    return False
+
+
+def should_use_file(file_name: str) -> bool:
+    print("Parse '" + file_name + "'? [Y/n]")
+    return parse_input_bool()
+
+
+def get_path_file_from_user(song: SongData, default_path: str) -> str:
+    print("Already downloaded '", song, "'? [Y/n]")
+    if (parse_input_bool()):
+        inp = input()
+        if inp == "":
+            return None
+        return inp
+
+    return download_file(song.link, default_path)
+
+
 def main():
     questions = []
-    for file_str in find_files():
-        print(file_str)
+    files = []
+    for file_path in find_files():
+        file_str = str(file_path)
+        if (should_use_file(file_str)):
+            files.append(file_str)
+
+    for file_str in files:
         file = open(file_str)
         data = file.read()
         yaml_data = yaml.safe_load(data)
+
+        print("Should download all ? [Y/n]")
+        download_all = parse_input_bool()
+
         for title in yaml_data.keys():
             print("\n" + title)
             for song_yaml in yaml_data.get(title):
                 song = SongData.load_from_yaml(song_yaml, title)
-                print(song)
+
+                if download_all:
+                    music_file = download_file(
+                        song.link, str(Path(file_str).parents[0]))
+                else:
+                    music_file = get_path_file_from_user(
+                        song, str(Path(file_str).parents[0]))
+
                 new_question = QuestionData(len(questions),
                                             song.theme,
-                                            "/data/" + download_file(song.link, str(file_str.parents[0])))
+                                            "/data/" + music_file)
                 questions.append(new_question.__dict__)
-                print('"""\n', str(json.dumps(questions)), '\n"""\n')
         print("\n")
+
+    print('config_json =\n"""\n', str(json.dumps(questions)), '\n"""\n')
 
 
 main()
